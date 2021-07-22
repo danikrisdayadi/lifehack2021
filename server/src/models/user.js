@@ -1,12 +1,4 @@
-import mongoose, {
-    Types,
-    Schema,
-    Model,
-    Document,
-    PassportLocalDocument,
-    PassportLocalModel,
-    PassportLocalSchema
-} from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import passportLocalMongoose from 'passport-local-mongoose';
 
 export const userSchema = new Schema(
