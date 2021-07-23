@@ -56,11 +56,12 @@ const HomePage = ({...props}) => {
     return (
         <Container>
                 <div id="home-profile">
-                    <h1 style={{textAlign:"left", marginTop:'4%'}}>Welcome Back!</h1>
+                    <h1 style={{textAlign:"left", marginTop:'4%'}}>Welcome Back, ZeGrandmaster!</h1>
                     <br></br>
+                    <h3 style={{textAlign:"left"}}>Profile</h3>
                     <UserProfile></UserProfile>
                     <br></br>
-                    <Button variant="secondary" style={{float:"right"}}>View Profile</Button>
+                    <Button variant="secondary" style={{float:"right"}}>Full Profile</Button>
                 </div>
                 <div id="home-class" style={{marginBottom:'5%'}}>
                     <h3 style={{textAlign:"left", marginTop:'4%'}}>Classes</h3>

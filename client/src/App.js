@@ -12,6 +12,7 @@ import Classes from './components/classes';
 import ClassroomPage from './pages/ClassroomPage';
 import Assignments from './components/assignments';
 import HomePage from './pages/HomePage'
+
 const App = () => (
     <div className="App">
         <NavigationBar></NavigationBar>

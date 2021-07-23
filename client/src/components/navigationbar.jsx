@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {Link } from 'react-router-dom';
 import { Navbar, Nav, Container} from 'react-bootstrap';
 import Logo from '../assets/logo-white.svg'; 
+
 class NavigationBar extends Component {
   render() {
     return (
