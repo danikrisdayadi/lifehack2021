@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import ProgressBar from "react-bootstrap/ProgressBar";
-import Image from "react-bootstrap/Image"
-import Card from "react-bootstrap/Card"
-class UserProfile extends Component {
-  state = {
+import {ProgressBar, Image, Card} from "react-bootstrap";
 
-  };
-  render() {
+
+const UserProfile = () => {
     return (
         <Card >
             <div className="card-body">
@@ -16,15 +12,15 @@ class UserProfile extends Component {
             </div>
               <div id="progressBar" style={{width: '70%', float:"right"}}>
                 <p>Lvl {/*TODO*/}2 Mathematics
-                <ProgressBar now="80" visuallyHidden variant="success" /></p>
+                <ProgressBar now="80" variant="success" /></p>
                 <p>Lvl {/*TODO*/}1 Physics
-                <ProgressBar now="60" visuallyHidden variant="info" /></p>
+                <ProgressBar now="60" variant="info" /></p>
                 <p>Lvl {/*TODO*/}3 Chemistry
-                <ProgressBar now="90" visuallyHidden variant="warning"/></p>
+                <ProgressBar now="90" variant="warning"/></p>
               </div>
             </div>
         </Card>
-    )}
+    )
 };
 
 
