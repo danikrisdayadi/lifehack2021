@@ -1,10 +1,12 @@
-import mongoose, { Schema } from 'mongoose';
-import passportLocalMongoose from 'passport-local-mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-import { itemSchema } from './item';
-import { characterSchema } from './character';
+const passportLocalMongoose = require('passport-local-mongoose');
 
-export const userSchema = new Schema(
+const itemSchema = require('./item');
+const characterSchema = require('./character');
+
+const userSchema = new Schema(
     {
         firstName: {
             type: String,
@@ -48,28 +50,26 @@ export const userSchema = new Schema(
                 ref: 'Class'
             }
         ],
-        assignmens: [
+        assignments: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Assignment'
             }
         ],
         coins: {
-            type: Number, 
+            type: Number,
             default: 0
         },
         xp: {
-            type: Number, 
-            default: 0  
+            type: Number,
+            default: 0
         },
         level: {
-            type: Number, 
-            default: 0  
+            type: Number,
+            default: 0
         },
         characters: [characterSchema],
-        items: [
-            itemSchema
-        ],
+        items: [itemSchema],
         confirmationCode: {
             type: String,
             unique: true
@@ -78,6 +78,10 @@ export const userSchema = new Schema(
             type: String,
             enum: ['local', 'google', 'linkedin'],
             default: 'local'
+        },
+        admin: {
+            type: Boolean,
+            default: false
         }
     },
     {
@@ -87,4 +91,6 @@ export const userSchema = new Schema(
 
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
 
-export const Users = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;

@@ -1,7 +1,8 @@
-import mongoose, { Types, Schema, Model, Document } from 'mongoose';
-import { commentSchema } from './comment';
+const mongoose = require('mongoose');
+const commentSchema = require('./comment');
+const Schema = mongoose.Schema;
 
-export const postSchema = new Schema(
+const postSchema = new Schema(
     {
         title: {
             type: String,
@@ -16,10 +17,6 @@ export const postSchema = new Schema(
             ref: 'User',
             required: true
         },
-        noOfComments: {
-            type: Number,
-            default: 0
-        },
         comments: [commentSchema]
     },
     {
@@ -27,4 +24,5 @@ export const postSchema = new Schema(
     }
 );
 
-export const Posts = mongoose.model < PostDocument > ('Post', postSchema);
+const Post = mongoose.model('Post', postSchema);
+module.exports = Post;

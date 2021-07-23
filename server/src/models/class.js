@@ -1,6 +1,8 @@
-import mongoose, { Schema } from 'mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const assignmentSchema = require('./assignment');
 
-export const classSchema = new Schema(
+const classSchema = new Schema(
     {
         subject: {
             type: String,
@@ -16,16 +18,12 @@ export const classSchema = new Schema(
                 ref: 'User'
             }
         ],
-        assignments: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Assignment'
-            }
-        ]
+        assignments: [assignmentSchema]
     },
     {
         timestamps: true
     }
 );
 
-export const Classes = mongoose.model < ClassDocument > ('Class', classSchema);
+const Class = mongoose.model('Class', classSchema);
+module.exports = Class;

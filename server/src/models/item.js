@@ -1,6 +1,7 @@
-import { Schema } from 'mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-export const itemSchema = new Schema(
+const itemSchema = new Schema(
     {
         name: {
             type: String,
@@ -15,3 +16,5 @@ export const itemSchema = new Schema(
         timestamps: true
     }
 );
+
+module.exports = itemSchema;
