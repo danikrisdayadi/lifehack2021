@@ -20,7 +20,7 @@ const App = () => (
     
     <div className="App">
         <NavigationBar></NavigationBar>
-        <Container fluid style={{paddingLeft: 60, paddingRight: 60}}>
+        <Container fluid style={{paddingLeft: 160, paddingRight: 160}}>
             <Switch>
                 <Route exact path="/">
                     <Redirect to="login" />
