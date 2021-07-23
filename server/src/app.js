@@ -9,6 +9,7 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 // Import routes
 const classRouter = require('./routes/classRouter');
+const userRouter = require('./routes/userRouter');
 const postRouter = require('./routes/postRouter');
 
 const app = express();
@@ -35,6 +36,7 @@ const port = process.env.PORT || 5000;
 
 // Declare routes
 app.use('/api/classes', classRouter);
+app.use('/api/users', userRouter);
 app.use('/api/posts', postRouter);
 
 // Configure mongoose to avoid deprecation warnings
@@ -81,4 +83,3 @@ server.listen(port, () => {
 
 //Export app for testing
 module.exports = server;
-// export default app;

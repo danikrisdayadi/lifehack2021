@@ -1,57 +1,69 @@
 import React, { useState } from 'react';
-
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Toast from 'react-bootstrap/Toast';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
-
+import LeaderBoard from './components/leaderboard';
+import Assignment from './components/assignment';
+import UserProfile from './components/userprofile';
+import NavigationBar from './components/navigationbar'
 import './App.css';
 
-const ExampleToast = ({ children }) => {
-    const [show, toggleShow] = useState(true);
-
-    return (
-        <>
-            {!show && (
-                <Button onClick={() => toggleShow(true)}>Show Toast</Button>
-            )}
-            <Toast show={show} onClose={() => toggleShow(false)}>
-                <Toast.Header>
-                    <strong className="mr-auto">React Bootstrap</strong>
-                </Toast.Header>
-                <Toast.Body>{children}</Toast.Body>
-            </Toast>
-        </>
-    );
-};
-
+import LoginPage from './pages/LoginPage'
+import DashboardPage from './pages/DashboardPage';
+import LeaderboardPage from './pages/LeaderboardPage';
+import Classes from './components/classes';
+import Assignments from './components/assignments';
 const App = () => (
+    
     <div className="App">
-        <Container className="p-3">
-            <Alert variant="success">
-                <Alert.Heading>Hey, nice to see you</Alert.Heading>
-                <p>
-                    Aww yeah, you successfully read this important alert
-                    message. This example text is going to run a bit longer so
-                    that you can see how spacing within an alert works with this
-                    kind of content.
-                </p>
-                <hr />
-                <p className="mb-0">
-                    Whenever you need to, be sure to use margin utilities to
-                    keep things nice and tidy.
-                </p>
-            </Alert>
-            <Jumbotron>
-                <h1 className="header">Welcome To React-Bootstrap</h1>
-                <ExampleToast>
-                    We now have Toasts
-                    <span role="img" aria-label="tada">
-                        🍻
-                    </span>
-                </ExampleToast>
-            </Jumbotron>
+        <NavigationBar></NavigationBar>
+        <Container fluid style={{paddingLeft: 160, paddingRight: 160}}>
+            <Switch>
+                <Route exact path="/">
+                    <Redirect to="login" />
+                </Route>
+                <Route
+                    exact
+                    path="/leaderboard"
+                    component={LeaderboardPage}
+                />
+                <Route
+                    path="/login"
+                    render={() => (
+                        <LoginPage />
+                    )}
+                />
+                <Route
+                    path="/dashboard"
+                    component={DashboardPage}
+                />
+                <Route
+                    path="/profile"
+                    exact
+                    component={UserProfile}
+                />
+                <Route
+                    path="/classes"
+                    exact
+                    component={Classes}
+                />
+                <Route
+                    path="/assignments"
+                    exact
+                    component={Assignments}
+                />
+                <Route
+                    path="/profile/:queryId"
+                    render={(props) => (
+                        <UserProfile
+                            key={props.match.params.queryId}
+                        />
+                    )}
+                />
+            </Switch>
         </Container>
     </div>
 );
