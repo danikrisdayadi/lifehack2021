@@ -8,7 +8,7 @@ const assignmentSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        mark: {
+        totalMark: {
             type: Number,
             default: 0
         },
@@ -16,21 +16,18 @@ const assignmentSchema = new mongoose.Schema(
             type: Date,
             required: true
         },
-        status: {
-            type: String,
-            enum: ['To be completed', 'Completed', 'Expired'],
-            default: 'To be completed'
-        },
-        questions: [questionSchema]
-        // author: {
-        //     type: Schema.Types.ObjectId,
-        //     ref: 'User',
-        //     required: true
-        // },
+
+        questions: [questionSchema],
+        author: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        }
     },
     {
         timestamps: true
     }
 );
 
-module.exports = assignmentSchema;
+const Assignment = mongoose.model('Assignment', assignmentSchema);
+module.exports = Assignment;

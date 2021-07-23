@@ -94,13 +94,14 @@ const classroomController = {
             });
     },
 
-    deleteClass(req, res) {
+    deleteClass(req, res, next) {
         if (req.user.userType != 'Teacher') {
             return res.status(400).send({
                 message: 'You are not authorized to delete a class!'
             });
         }
-        Classroom.findByIdAndRemove(req.params.classId)
+
+        Classroom.findById(req.params.classId)
             .then((c) => {
                 if (!c) {
                     return res.status(404).send({
@@ -108,9 +109,20 @@ const classroomController = {
                     });
                 }
                 if (c.teacher.id.equals(req.user._id)) {
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json(c);
+                    Assignments.deleteMany({ _id: { $in: c.assignments } })
+                        .then(() => {
+                            Classroom.findByIdAndRemove(
+                                req.params.classId
+                            ).then(() => {
+                                res.statusCode = 200;
+                                res.setHeader(
+                                    'Content-Type',
+                                    'application/json'
+                                );
+                                res.json('Classroom deleted successfully!');
+                            });
+                        })
+                        .catch((err) => next(err));
                 } else {
                     return res.status(400).send({
                         message: 'You are not authorized to delete this class!'

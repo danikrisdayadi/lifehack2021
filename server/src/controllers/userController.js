@@ -284,7 +284,7 @@ exports.getUser = (req, res, next) => {
     Users.findOne({
         username: req.params.username
     })
-        .populate('assignments', 'classrooms')
+        .populate('classrooms', 'assignments')
         .then((user) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
