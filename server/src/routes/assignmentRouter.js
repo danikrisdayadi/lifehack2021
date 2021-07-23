@@ -1,6 +1,4 @@
 const express = require('express');
-// const cors = require('cors');
-// const corsOptionsDelegate = require('../../node_modules/cors');
 
 const assignmentRouter = express.Router();
 assignmentRouter.use(express.json());
@@ -11,7 +9,7 @@ const questionController = require('../controllers/questionController');
 assignmentRouter
     .route('/')
     .get(assignmentController.getAllAssignments)
-    .post(assignmentController.postAssignment)
+    .post(assignmentController.postAssignment);
 
 assignmentRouter
     .route('/:assignmentId')
@@ -19,25 +17,16 @@ assignmentRouter
     .put(assignmentController.updateAssignment)
     .delete(assignmentController.deleteAssignment);
 
-
 assignmentRouter
-    .route('/:assignmentId/questions')    
-    .get(
-        questionController.getAssignmentQuestions
-    )
-    .post(
-        questionController.postQuestion)
+    .route('/:assignmentId/questions')
+    .get(questionController.getAssignmentQuestions)
+    .post(questionController.postQuestion);
 
 assignmentRouter
     .route('/:assignmentId/questions/:questionId')
-    .get(
-        questionController.getQuestion
-    )
-        
-    .put(
-        questionController.updateQuestion
-    ).delete(
-        questionController.deleteQuestion
-    );
+    .get(questionController.getQuestion)
+
+    .put(questionController.updateQuestion)
+    .delete(questionController.deleteQuestion);
 
 module.exports = assignmentRouter;

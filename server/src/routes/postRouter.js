@@ -1,60 +1,38 @@
-import express from 'express';
-import cors from 'cors';
-import { corsOptionsDelegate } from '../utils/cors';
-import asyncHandler from 'express-async-handler';
+const express = require('express');
 
 const postRouter = express.Router();
 postRouter.use(express.json());
 
-postRouter
-    .route('/posts')
-    .options(cors(corsOptionsDelegate), (req, res) => {
-        res.sendStatus(204);
-    })
-    .get(cors(), getAllPosts);
+const postController = require('../controllers/postController');
+const commentController = require('../controllers/commentController');
+const replyController = require('../controllers/replyContoller');
 
 postRouter
-    .route('/posts/:postId')
-    .options(cors(corsOptionsDelegate), (req, res) => {
-        res.sendStatus(204);
-    })
-    .get(cors(), asyncHandler(getPost))
-    .post(cors(corsOptionsDelegate), asyncHandler(postPost))
-    .put(cors(corsOptionsDelegate), asyncHandler(updatePost))
-    .delete(cors(corsOptionsDelegate), asyncHandler(deletePost));
+    .route('/')
+    .get(postController.getAllPosts)
+    .post(postController.postPost);
 
 postRouter
-    .route('/posts/:postId/comments')
-    .options(cors(corsOptionsDelegate), (req, res) => {
-        res.sendStatus(204);
-    })
-    .get(cors(), asyncHandler(getPostComments));
+    .route('/:postId')
+    .get(postController.getPost)
+    .delete(postController.deletePost);
 
 postRouter
-    .route('/posts/:postId/comments/:commentId')
-    .options(cors(corsOptionsDelegate), (req, res) => {
-        res.sendStatus(204);
-    })
-    .get(cors(), asyncHandler(getComment))
-    .post(cors(corsOptionsDelegate), asyncHandler(postComment))
-    .put(cors(corsOptionsDelegate), asyncHandler(updateComment))
-    .delete(cors(corsOptionsDelegate), asyncHandler(deleteComment));
+    .route('/:postId/comments')
+    .get(commentController.getPostComments)
+    .post(commentController.postComment);
 
 postRouter
-    .route('/posts/:postId/comments/:commentId/replies')
-    .options(cors(corsOptionsDelegate), (req, res) => {
-        res.sendStatus(204);
-    })
-    .get(cors(), asyncHandler(getCommentReplies));
+    .route('/:postId/comments/:commentId')
+    .delete(commentController.deleteComment);
 
 postRouter
-    .route('/posts/:postId/comments/:commentId/replies/:replyId')
-    .options(cors(corsOptionsDelegate), (req, res) => {
-        res.sendStatus(204);
-    })
-    .get(cors(), asyncHandler(getReply))
-    .post(cors(corsOptionsDelegate), asyncHandler(postReply))
-    .put(cors(corsOptionsDelegate), asyncHandler(updateReply))
-    .delete(cors(corsOptionsDelegate), asyncHandler(deleteReply));
+    .route('/:postId/comments/:commentId/replies')
+    .get(replyController.getCommentReplies)
+    .post(replyController.postReply);
 
-export default postRouter;
+postRouter
+    .route('/:postId/comments/:commentId/replies/:replyId')
+    .delete(replyController.deleteReply);
+
+module.exports = postRouter;

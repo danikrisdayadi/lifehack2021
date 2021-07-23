@@ -8,7 +8,8 @@ const http = require('http');
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 // Import routes
-const router = require('./routes/assignmentRouter');
+const assignmentRouter = require('./routes/assignmentRouter');
+const postRouter = require('./routes/postRouter');
 
 const app = express();
 
@@ -33,7 +34,8 @@ const url = process.env.MONGO_URI;
 const port = process.env.PORT || 5000;
 
 // Declare routes
-app.use('/api/assignments', router);
+app.use('/api/assignments', assignmentRouter);
+app.use('/api/posts', postRouter);
 
 // Configure mongoose to avoid deprecation warnings
 mongoose.set('useNewUrlParser', true);

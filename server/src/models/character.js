@@ -1,6 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-export const characterSchema = new Schema(
+const characterSchema = new Schema(
     {
         name: {
             type: String,
@@ -24,5 +25,5 @@ export const characterSchema = new Schema(
     }
 );
 
-export const Characters =
-    mongoose.model < CharacterDocument > ('Character', characterSchema);
+const Character = mongoose.model('Character', characterSchema);
+module.exports = Character;

@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+const mongoose = require('mongoose');
 import passportLocalMongoose from 'passport-local-mongoose';
 
 import { itemSchema } from './item';
@@ -80,7 +80,7 @@ export const userSchema = new Schema(
         admin: {
             type: Boolean,
             default: false
-        },
+        }
     },
     {
         timestamps: true
