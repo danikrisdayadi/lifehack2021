@@ -6,7 +6,6 @@ import Coin from '../assets/coin.svg'
 import {gradient} from '../utils/colours';
 
 const Leaderboard = () => {
-
     const Style = styled.div`
         .bg-progress0 {
             background-color: ${gradient[0]};
@@ -35,7 +34,6 @@ const Leaderboard = () => {
         .bg-progress8 {
             background-color: ${gradient[8]};
         }
-
     `
     const students = [
         {

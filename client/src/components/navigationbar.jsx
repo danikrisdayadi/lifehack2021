@@ -6,7 +6,7 @@ import Logo from '../assets/logo-white.svg';
 class NavigationBar extends Component {
   render() {
     return (
-      <Navbar bg="info" variant="dark" style={{marginBottom: "10vh"}}>
+      <Navbar bg="info" variant="dark" style={{marginBottom: "60px"}}>
         <Container>
           <Navbar.Brand as={Link} to='/'>
           <img
