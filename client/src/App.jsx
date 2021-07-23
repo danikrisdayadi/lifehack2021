@@ -36,7 +36,7 @@ const App = () => {
         <div className="App">
             <NavigationBar />
             <Switch>
-                <Route exact path="/" component={HomePage} />
+                {/* <Route exact path="/" component={HomePage} /> */}
                 <Route exact path="/leaderboard" component={LeaderBoard} />
             </Switch>
         </div>
