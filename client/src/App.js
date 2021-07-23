@@ -5,6 +5,8 @@ import Toast from 'react-bootstrap/Toast';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
+import LeaderBoard from './components/leaderboard'
+import Assignment from './components/assignment';
 
 import './App.css';
 
@@ -29,7 +31,7 @@ const ExampleToast = ({ children }) => {
 const App = () => (
     <div className="App">
         <Container className="p-3">
-            <Alert variant="success">
+            {/* <Alert variant="success">
                 <Alert.Heading>Hey, nice to see you</Alert.Heading>
                 <p>
                     Aww yeah, you successfully read this important alert
@@ -52,6 +54,8 @@ const App = () => (
                     </span>
                 </ExampleToast>
             </Jumbotron>
+            <LeaderBoard></LeaderBoard> */}
+            <Assignment></Assignment>
         </Container>
     </div>
 );
