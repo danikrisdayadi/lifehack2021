@@ -11,7 +11,10 @@ import LeaderboardPage from './pages/LeaderboardPage';
 import Classes from './components/classes';
 import ClassroomPage from './pages/ClassroomPage';
 import Assignments from './components/assignments';
-import HomePage from './pages/HomePage'
+import HomePage from './pages/HomePage';
+import AssignmentCover from './components/assignmentCover';
+import Question from './components/question';
+
 const App = () => (
     
     <div className="App">
@@ -50,6 +53,25 @@ const App = () => (
                     path="/assignments"
                     exact
                     component={Assignments}
+                />
+                <Route
+                    path="/assignment/:queryId"
+                    exact
+                    render={(props) => (
+                        <AssignmentCover
+                            key={props.match.params.queryId}
+                            history={props.history}
+                        />
+                    )}
+                />
+                <Route
+                    path="/assignment/:queryId/question/:queryId"
+                    exact
+                    render={(props) => (
+                        <Question
+                            key={props.match.params.queryId}
+                        />
+                    )}
                 />
                 <Route
                     path="/class/:queryId"

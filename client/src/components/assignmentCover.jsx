@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {Button, Card} from 'react-bootstrap';
+import { withRouter } from "react-router-dom";
 
-const AssignmentCover = () => {
+const AssignmentCover = ({...props}) => {
     const [assignment, setAssignment] = useState(
         {
             title: "Springfield PYP 2020 Paper 1",
@@ -13,8 +14,9 @@ const AssignmentCover = () => {
         }
     );
     function startAssignment() {
-        //set path to next question
+        //set path to next question TODO the ID
         console.log("START ASSIGNMENT")
+        props.history.push("/assignment/1/question/2")
     }
     return (
         <div className="container">
@@ -34,4 +36,4 @@ const AssignmentCover = () => {
     );
 };
 
-export default AssignmentCover;
+export default withRouter(AssignmentCover);

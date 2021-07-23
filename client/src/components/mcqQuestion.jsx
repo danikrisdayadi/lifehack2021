@@ -1,18 +1,19 @@
 import React, {useState} from 'react';
 import {Button, Form, FormGroup} from 'react-bootstrap';
 
-const McqQuestion = () => {
-    const [question, setQuestion] = useState(
-        {
-            content: "Are we gonna survive?",
-            file: null,
-            answer: "Yes",
-            options: ["Yes", "No", "Maybe", "Maybe Not"],
-            questionNumber: 1,
-            totalQuestions: 10,
-            id: 100
-        }
-    );
+const McqQuestion = ({...props}) => {
+    // const [question, setQuestion] = useState(
+    //     {
+    //         content: "Are we gonna survive?",
+    //         file: null,
+    //         answer: "Yes",
+    //         options: ["Yes", "No", "Maybe", "Maybe Not"],
+    //         questionNumber: 1,
+    //         totalQuestions: 10,
+    //         id: 100
+    //     }
+    // );
+    let question = props.question
     const CHOICES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'];
     let idx = -1;
     let answer=""
@@ -34,8 +35,8 @@ const McqQuestion = () => {
         <div className="container">
             <div className="row">
                 <div className="col-lg-10 col-lg-offset-1">
-                    <div id="question">
-                        <h4>Question {question.questionNumber}/{question.totalQuestions}</h4>
+                    <div id="question" style={{textAlign:"left"}}>
+                        {/* <h4>Question {question.questionNumber}/{question.totalQuestions}</h4> */}
                         <p>{question.content}</p>
                     </div>
                     <ul className="list-group" style={{textAlign:"left"}}>
@@ -50,9 +51,7 @@ const McqQuestion = () => {
                           })
                         }
                     </ul>
-                    <div id="quizButton" className="mt-2">
-                        <Button variant="secondary" onClick={() => onClickNextQuestion()}>Next Question</Button>
-                    </div>
+                    <br></br>
                 </div>
             </div>
         </div>
