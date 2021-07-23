@@ -1,10 +1,10 @@
 const express = require('express');
 
-const Class = require('../models/class');
+const Classroom = require('../models/classroom');
 
-const classController = {
+const classroomController = {
     getClass(req, res, next) {
-        Class.findById(req.params.classId)
+        Classroom.findById(req.params.classId)
             .then((c) => {
                 if (classController != null) {
                     res.statusCode = 200;
@@ -34,14 +34,30 @@ const classController = {
             });
         }
 
-        const c = new Class({
-            subject: req.body.subject,
-            teacher: req.user._id
-        });
+        const c = new Classroom(req.body);
 
         c.save()
             .then((data) => {
-                res.send(data);
+                const toUpdate = c.students.push(teacher);
+
+                Users.updateMany(
+                    { _id: { $in: toUpdate } },
+                    {
+                        $addToSet: {
+                            classrooms: Types.ObjectId(req.params.classId)
+                        }
+                    }
+                )
+                    .then(() => {
+                        res.send(data);
+                    })
+                    .catch((err) => {
+                        res.status(500).send({
+                            message:
+                                err.message ||
+                                'Some error occurred while creating the Class.'
+                        });
+                    });
             })
             .catch((err) => {
                 res.status(500).send({
@@ -58,7 +74,7 @@ const classController = {
                 message: 'You are not authorized to update a class!'
             });
         }
-        Class.findByIdAndUpdate(
+        Classroom.findByIdAndUpdate(
             req.params.classId,
             {
                 $set: req.body
@@ -94,13 +110,14 @@ const classController = {
             });
     },
 
-    deleteClass(req, res) {
+    deleteClass(req, res, next) {
         if (req.user.userType != 'Teacher') {
             return res.status(400).send({
                 message: 'You are not authorized to delete a class!'
             });
         }
-        Class.findByIdAndRemove(req.params.classId)
+
+        Classroom.findById(req.params.classId)
             .then((c) => {
                 if (!c) {
                     return res.status(404).send({
@@ -108,9 +125,20 @@ const classController = {
                     });
                 }
                 if (c.teacher.id.equals(req.user._id)) {
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json(c);
+                    Assignments.deleteMany({ _id: { $in: c.assignments } })
+                        .then(() => {
+                            Classroom.findByIdAndRemove(
+                                req.params.classId
+                            ).then(() => {
+                                res.statusCode = 200;
+                                res.setHeader(
+                                    'Content-Type',
+                                    'application/json'
+                                );
+                                res.json('Classroom deleted successfully!');
+                            });
+                        })
+                        .catch((err) => next(err));
                 } else {
                     return res.status(400).send({
                         message: 'You are not authorized to delete this class!'
@@ -131,4 +159,4 @@ const classController = {
     }
 };
 
-module.exports = classController;
+module.exports = classroomController;

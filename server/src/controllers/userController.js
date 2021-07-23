@@ -1,4 +1,5 @@
 const isEmpty = require('is-empty');
+const mongoose = require('mongoose');
 
 // Import middlewares
 const passport = require('passport');
@@ -166,7 +167,7 @@ exports.socialLoginUser = (req, res, next) => {
     const network = req.body.network;
     const token = req.body.token;
 
-    validateWithProvider(network, token)
+    validateWithProvider(token)
         .then((profile) => {
             if (profile.error || profile.serviceErrorCode) {
                 let errMessage = '';
@@ -175,7 +176,6 @@ exports.socialLoginUser = (req, res, next) => {
                 } else {
                     errMessage = profile.message;
                 }
-
                 res.status(400).json(errMessage);
             } else {
                 const username = profile.email.substring(
@@ -263,6 +263,7 @@ exports.socialLoginUser = (req, res, next) => {
  */
 exports.getAllUsers = (req, res, next) => {
     Users.find({})
+        .populate('classrooms', 'assignments')
         .then((user) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
@@ -283,6 +284,7 @@ exports.getUser = (req, res, next) => {
     Users.findOne({
         username: req.params.username
     })
+        .populate('classrooms', 'assignments')
         .then((user) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');

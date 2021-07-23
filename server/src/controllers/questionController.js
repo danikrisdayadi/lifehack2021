@@ -1,6 +1,4 @@
 const Assignment = require('../models/assignment');
-const Question = require('../models/question');
-const Class = require('../models/class');
 
 const questionController = {
     postQuestion(req, res, next) {
@@ -9,39 +7,34 @@ const questionController = {
                 message: 'You are not authorized to post a question!'
             });
         }
-        Class.findById(req.params.classId)
+        Assignment.findById(req.params.assignmentId)
             .then(
-                (c) => {
+                (assignment) => {
                     if (
-                        c != null &&
-                        c.assignments.id(req.params.assignmentId) != null
+                        assignment != null &&
+                        assignment.author.equals(req.user._id)
                     ) {
-                        if (c.teacher.id.equals(req.user._id)) {
-                            let assignment = c.assignments.id(
-                                req.params.assignmentId
-                            );
-                            assignment.questions.push(req.body);
-                            c.save().then((c) => {
-                                assignment = c.assignments.id(
-                                    req.params.assignmentId
+                        assignment.questions.push(req.body);
+                        assignment.save().then(
+                            (assignment) => {
+                                Assignment.findById(assignment._id).then(
+                                    (assignment) => {
+                                        res.statusCode = 200;
+                                        res.setHeader(
+                                            'Content-Type',
+                                            'application/json'
+                                        );
+                                        res.json(assignment);
+                                    }
                                 );
-                                res.statusCode = 200;
-                                res.setHeader(
-                                    'Content-Type',
-                                    'application/json'
-                                );
-                                res.json(assignment.questions);
-                            });
-                        } else {
-                            err = new Error(
-                                'You are not authorized to post a question for this assignment!'
-                            );
-                            err.status = 403;
-                            return next(err);
-                        }
+                            },
+                            (err) => next(err)
+                        );
                     } else {
                         err = new Error(
-                            'Post ' + req.params.postId + ' not found'
+                            'Assignment ' +
+                                req.params.assignmentId +
+                                ' not found'
                         );
                         err.status = 404;
                         return next(err);
@@ -55,46 +48,50 @@ const questionController = {
     updateQuestion(req, res, next) {
         if (req.user.userType != 'Teacher') {
             return res.status(400).send({
-                message: 'You are not authorized to update a question!'
+                message: 'You are not authorized to update an assignment!'
             });
         }
-        Class.findById(req.params.classId)
+
+        Assignment.findById(req.params.assignmentId)
             .then(
-                (c) => {
+                (assignment) => {
                     if (
-                        c != null &&
-                        c.assignments.id(req.params.assignmentId) != null &&
-                        c.assignments
-                            .id(req.params.assignmentId)
-                            .questions.id(req.params.questionId) != null
+                        assignment != null &&
+                        assignment.questions.id(req.params.questionId) != null
                     ) {
-                        if (c.teacher.id.equals(req.user._id)) {
-                            let question = c.assignments
-                                .id(req.params.assignmentId)
-                                .questions.id(req.params.questionId);
+                        if (assignment.author.equals(req.user._id)) {
                             if (req.body.content) {
-                                question.content = req.body.content;
+                                assignment.questions.id(
+                                    req.params.questionId
+                                ).content = req.body.content;
                             }
                             if (req.body.image) {
-                                question.image = req.body.image;
+                                assignment.questions.id(
+                                    req.params.questionId
+                                ).image = req.body.image;
                             }
+
                             if (req.body.answer) {
-                                question.answer = req.body.answer;
+                                assignment.questions.id(
+                                    req.params.questionId
+                                ).answer = req.body.answer;
                             }
-                            if (req.body.options) {
-                                question.options = req.body.options;
-                            }
-                            c.save().then((c) => {
-                                let assignment = c.assignments.id(
-                                    req.params.assignmentId
-                                );
-                                res.statusCode = 200;
-                                res.setHeader(
-                                    'Content-Type',
-                                    'application/json'
-                                );
-                                res.json(assignment.questions);
-                            });
+
+                            assignment.save().then(
+                                (assignment) => {
+                                    Assignment.findById(assignment._id).then(
+                                        (assignment) => {
+                                            res.statusCode = 200;
+                                            res.setHeader(
+                                                'Content-Type',
+                                                'application/json'
+                                            );
+                                            res.json(assignment);
+                                        }
+                                    );
+                                },
+                                (err) => next(err)
+                            );
                         } else {
                             err = new Error(
                                 'You are not authorized to update this question!'
@@ -102,13 +99,17 @@ const questionController = {
                             err.status = 403;
                             return next(err);
                         }
-                    } else {
+                    } else if (assignment == null) {
                         err = new Error(
-                            'Class ' +
-                                req.params.classId +
-                                ' or assignment ' +
+                            'Assignment ' +
                                 req.params.assignmentId +
                                 ' not found'
+                        );
+                        err.status = 404;
+                        return next(err);
+                    } else {
+                        err = new Error(
+                            'Question ' + req.params.questionId + ' not found'
                         );
                         err.status = 404;
                         return next(err);
@@ -122,30 +123,35 @@ const questionController = {
     deleteQuestion(req, res, next) {
         if (req.user.userType != 'Teacher') {
             return res.status(400).send({
-                message: 'You are not authorized to delete a question!'
+                message: 'You are not authorized to delete an assignment!'
             });
         }
-        Class.findById(req.params.classId)
+        Assignment.findById(req.params.assignmentId)
             .then(
-                (c) => {
+                (assignment) => {
                     if (
-                        c != null &&
-                        c.assignments.id(req.params.assignmentId) != null &&
-                        c.assignments
-                            .id(req.params.assignmentId)
-                            .questions.id(req.params.questionId) != null
+                        assignment != null &&
+                        assignment.questions.id(req.params.questionId) != null
                     ) {
-                        if (c.teacher.id.equals(req.user._id)) {
-                            c.assignments
-                                .id(req.params.assignmentId)
-                                .questions.id(req.params.questionId)
+                        if (assignment.author.equals(req.user._id)) {
+                            assignment.questions
+                                .id(req.params.questionId)
                                 .remove();
-                            let assignment = c.assignments.id(
-                                req.params.assignmentId
+                            assignment.save().then(
+                                (assignment) => {
+                                    Assignment.findById(assignment._id).then(
+                                        (assignment) => {
+                                            res.statusCode = 200;
+                                            res.setHeader(
+                                                'Content-Type',
+                                                'application/json'
+                                            );
+                                            res.json(assignment);
+                                        }
+                                    );
+                                },
+                                (err) => next(err)
                             );
-                            res.statusCode = 200;
-                            res.setHeader('Content-Type', 'application/json');
-                            res.json(assignment.questions);
                         } else {
                             err = new Error(
                                 'You are not authorized to delete this question!'
@@ -153,13 +159,17 @@ const questionController = {
                             err.status = 403;
                             return next(err);
                         }
-                    } else {
+                    } else if (assignment == null) {
                         err = new Error(
-                            'Class ' +
-                                req.params.classId +
-                                ' or assignment ' +
+                            'Assignment ' +
                                 req.params.assignmentId +
                                 ' not found'
+                        );
+                        err.status = 404;
+                        return next(err);
+                    } else {
+                        err = new Error(
+                            'Question ' + req.params.questionId + ' not found'
                         );
                         err.status = 404;
                         return next(err);

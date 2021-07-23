@@ -8,7 +8,8 @@ const http = require('http');
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 // Import routes
-const classRouter = require('./routes/classRouter');
+const classroomRouter = require('./routes/classroomRouter');
+const assignmentRouter = require('./routes/assignmentRouter');
 const userRouter = require('./routes/userRouter');
 const postRouter = require('./routes/postRouter');
 
@@ -35,7 +36,8 @@ const url = process.env.MONGO_URI;
 const port = process.env.PORT || 5000;
 
 // Declare routes
-app.use('/api/classes', classRouter);
+app.use('/api/classrooms', classroomRouter);
+app.use('/api/assignments', assignmentRouter);
 app.use('/api/users', userRouter);
 app.use('/api/posts', postRouter);
 
