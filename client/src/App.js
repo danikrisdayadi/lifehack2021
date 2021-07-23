@@ -14,6 +14,8 @@ import './App.css';
 import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage';
 import LeaderboardPage from './pages/LeaderboardPage';
+import Classes from './components/classes';
+import Assignments from './components/assignments';
 const App = () => (
     
     <div className="App">
@@ -37,6 +39,29 @@ const App = () => (
                 <Route
                     path="/dashboard"
                     component={DashboardPage}
+                />
+                <Route
+                    path="/profile"
+                    exact
+                    component={UserProfile}
+                />
+                <Route
+                    path="/classes"
+                    exact
+                    component={Classes}
+                />
+                <Route
+                    path="/assignments"
+                    exact
+                    component={Assignments}
+                />
+                <Route
+                    path="/profile/:queryId"
+                    render={(props) => (
+                        <UserProfile
+                            key={props.match.params.queryId}
+                        />
+                    )}
                 />
             </Switch>
         </Container>

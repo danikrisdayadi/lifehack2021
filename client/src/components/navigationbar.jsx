@@ -12,21 +12,19 @@ class NavigationBar extends Component {
     return (
       <Navbar bg="info" variant="dark">
         <Container>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand as={Link} to='/'>
         <img
           alt=""
           src={Logo}
           width="30"
           height="30"
           className="d-inline-block align-top"
-        />{' '}
-      Mettis
+        />
       </Navbar.Brand>
-        <Nav className="me-auto">
-          <Nav.Link as={Link} to='/leaderboard'>My Classes</Nav.Link>
-          <Nav.Link href="#assignments">My Assignments</Nav.Link>
-          <Nav.Link href="#profile">My Profile</Nav.Link>
-          <Nav.Link href="#profile">Log Out</Nav.Link>
+        <Nav>
+          <Nav.Link as={Link} to='/classes'>My Classes</Nav.Link>
+          <Nav.Link as={Link} to='/assignments'>My Assignments</Nav.Link>
+          <Nav.Link as={Link} to='/profile'>My Profile</Nav.Link>
         </Nav>
         </Container>
     </Navbar>
