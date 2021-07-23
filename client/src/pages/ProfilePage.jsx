@@ -9,6 +9,19 @@ const Style = styled.div`
 
 `
 const ProfilePage = () => {
+    const availableAvatars = ["dog", "bird", "rat"];
+    const avatars = availableAvatars.map((avatar) => {
+        return (
+            <Col >
+                <Row className="justify-content-center" style={{height: 100}}>
+                    <img src={`${process.env.PUBLIC_URL}/avatars/${avatar}.png`} alt="avatar" width="150"/>
+                </Row>
+                <Row className="justify-content-center">
+                    <Button style={{marginTop: 20}}>Select</Button>
+                </Row>
+            </Col>
+        )
+    })
     return (
         <Style>
             <Container>
@@ -20,8 +33,7 @@ const ProfilePage = () => {
                 <br />
                 <h3>Owned Avatars</h3>
                 <Row lg={6}>
-                    <img src={`${process.env.PUBLIC_URL}/avatars/hurt.png`} alt="avatar" />
-                    <Button>Select</Button>
+                    {avatars}
                 </Row>
             </Container>
         </Style>

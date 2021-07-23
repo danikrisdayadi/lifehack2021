@@ -80,7 +80,7 @@ const UserProfile = () => {
               <Row className="align-items-center">
                   <Col lg="auto" classname="justify-content-center">
                       <Row>
-                        <Image src={`${process.env.PUBLIC_URL}/avatars/hurt.png`} />
+                        <Image src={`${process.env.PUBLIC_URL}/avatars/dog.png`} />
                       </Row>
                       <br></br>
                       <Row className="justify-content-center">

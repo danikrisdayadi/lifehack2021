@@ -68,7 +68,7 @@ const ClassroomPage = (props) => {
                 <h3>Your Profile</h3>
                 <div className="w-100"></div>
                 <Col style={{paddingLeft: 0}} lg="auto">
-                    <img src={`${process.env.PUBLIC_URL}/avatars/hurt.png`} alt="profile" className="image"/>
+                    <img src={`${process.env.PUBLIC_URL}/avatars/dog.png`} alt="profile" className="image"/>
                 </Col>
                 <Col>
                     <Row><p>Leaderboard Position: 24th (top 70%)</p></Row>

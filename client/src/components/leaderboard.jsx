@@ -34,7 +34,7 @@ const Leaderboard = () => {
             background-color: ${gradient[8]};
         }
     `
-    const DogProfile = `${process.env.PUBLIC_URL}/avatars/hurt.png`
+    const DogProfile = `${process.env.PUBLIC_URL}/avatars/dog.png`
     const students = [
         {
             name: 'Ayam 0',
