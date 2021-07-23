@@ -8,7 +8,7 @@ import Alert from 'react-bootstrap/Alert';
 import LeaderBoard from './components/leaderboard';
 import Assignment from './components/assignment';
 import UserProfile from './components/userprofile';
-import NavigationBar from './components/navigationbar'
+import NavigationBar from './components/navigationbar';
 
 import './App.css';
 
@@ -57,9 +57,10 @@ const App = () => (
                     </span>
                 </ExampleToast>
             </Jumbotron>
-            <LeaderBoard></LeaderBoard> */}
+            <LeaderBoard></LeaderBoard> 
             <Assignment></Assignment>
-            <UserProfile></UserProfile>
+            <UserProfile></UserProfile>*/}
+            <LeaderBoard></LeaderBoard>
         </Container>
     </div>
 );
