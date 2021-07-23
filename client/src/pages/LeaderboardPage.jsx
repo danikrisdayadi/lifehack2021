@@ -1,9 +1,19 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import Leaderboard from "../components/leaderboard";
 
 const LeaderboardPage = () => {
     return (
-        <h1>Leaderboard</h1>
+        <Container>
+            <div id="leaderboard-title" style={{ textAlign: 'left' }}>
+                <h2>Subject: Mathematics LeaderBoard</h2>
+                <p>Level: Secondary 1</p>
+            </div>
+            <div className="container">
+                <Leaderboard />
+            </div>
+        </Container>
     );
 };
 

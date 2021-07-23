@@ -8,11 +8,11 @@ const commentSchema = new Schema(
             type: String,
             required: true
         },
-        // author: {
-        //     type: Schema.Types.ObjectId,
-        //     ref: 'User',
-        //     required: true
-        // },
+        author: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
         replies: [replySchema]
     },
     {

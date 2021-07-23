@@ -6,12 +6,12 @@ const replySchema = new Schema(
         content: {
             type: String,
             required: true
+        },
+        author: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
         }
-        // author: {
-        //     type: Schema.Types.ObjectId,
-        //     ref: 'User',
-        //     required: true
-        // }
     },
     {
         timestamps: true

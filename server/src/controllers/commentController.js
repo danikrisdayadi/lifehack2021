@@ -65,8 +65,9 @@ const commentController = {
                         post.comments.id(req.params.commentId) != null
                     ) {
                         if (
-                            true
-                            //   post.comments.id(req.params.commentId).author.equals(req.user._id)
+                            post.comments
+                                .id(req.params.commentId)
+                                .author.equals(req.user._id)
                         ) {
                             post.comments.id(req.params.commentId).remove();
                             post.save().then(
@@ -86,7 +87,7 @@ const commentController = {
                             );
                         } else {
                             err = new Error(
-                                'You are not authorized to delete this post!'
+                                'You are not authorized to delete this comment!'
                             );
                             err.status = 403;
                             return next(err);

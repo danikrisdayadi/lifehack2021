@@ -72,9 +72,17 @@ const postController = {
                         message: 'Post not found with id ' + req.params.postId
                     });
                 }
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json('Post deleted successfully!');
+                if (post.author.equals(req.user._id)) {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json('Post deleted successfully!');
+                } else {
+                    err = new Error(
+                        'You are not authorized to delete this post!'
+                    );
+                    err.status = 403;
+                    return next(err);
+                }
             })
             .catch((err) => {
                 if (err.kind === 'ObjectId' || err.name === 'NotFound') {

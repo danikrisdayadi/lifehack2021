@@ -10,6 +10,11 @@ const questionSchema = new Schema(
             location: String,
             key: String
         },
+        options: [
+            {
+                type: String
+            }
+        ],
         answer: {
             type: String,
             required: true

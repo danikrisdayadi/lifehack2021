@@ -21,7 +21,7 @@ const assignmentSchema = new mongoose.Schema(
             enum: ['To be completed', 'Completed', 'Expired'],
             default: 'To be completed'
         },
-        questions: [questionSchema],
+        questions: [questionSchema]
         // author: {
         //     type: Schema.Types.ObjectId,
         //     ref: 'User',
@@ -33,5 +33,4 @@ const assignmentSchema = new mongoose.Schema(
     }
 );
 
-const Assignment = mongoose.model('Assignment', assignmentSchema);
-module.exports = Assignment;
+module.exports = assignmentSchema;
