@@ -8,6 +8,7 @@ import Alert from 'react-bootstrap/Alert';
 import LeaderBoard from './components/leaderboard';
 import Assignment from './components/assignment';
 import UserProfile from './components/userprofile';
+import NavigationBar from './components/navigationbar'
 
 import './App.css';
 
@@ -31,6 +32,7 @@ const ExampleToast = ({ children }) => {
 
 const App = () => (
     <div className="App">
+        <NavigationBar></NavigationBar>
         <Container className="p-3">
             {/* <Alert variant="success">
                 <Alert.Heading>Hey, nice to see you</Alert.Heading>
