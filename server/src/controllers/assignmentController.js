@@ -65,8 +65,31 @@ const assignmentController = {
                             $addToSet: { opportunities: opportunity._id }
                         })
                             .then((c) => {
-                                res.statusCode = 200;
-                                res.send(data);
+                                Users.updateMany(
+                                    {
+                                        _id: {
+                                            $in: c.students
+                                        }
+                                    },
+                                    {
+                                        $addToSet: {
+                                            assignments: {
+                                                assignmentId: assignment._id
+                                            }
+                                        }
+                                    }
+                                )
+                                    .then(() => {
+                                        res.statusCode = 200;
+                                        res.send(data);
+                                    })
+                                    .catch((err) => {
+                                        res.status(500).send({
+                                            message:
+                                                err.message ||
+                                                'Some error occurred while creating the Assignment.'
+                                        });
+                                    });
                             })
                             .catch((err) => {
                                 res.status(500).send({
@@ -197,18 +220,45 @@ const assignmentController = {
                         Classroom.findByIdAndUpdate(req.body.classroom, {
                             $pullAll: { assignments: [assignment._id] }
                         }).then((resp) => {
-                            Assignment.findByIdAndRemove(
-                                req.params.assignmentId
+                            Users.updateMany(
+                                { _id: { $in: resp.students } },
+                                {
+                                    $pullAll: {
+                                        assignments: assignmentStatus
+                                    }
+                                }
                             )
                                 .then(() => {
-                                    res.statusCode = 200;
-                                    res.setHeader(
-                                        'Content-Type',
-                                        'application/json'
-                                    );
-                                    res.json(
-                                        'Assignment deleted successfully!'
-                                    );
+                                    Assignment.findByIdAndRemove(
+                                        req.params.assignmentId
+                                    )
+                                        .then(() => {
+                                            res.statusCode = 200;
+                                            res.setHeader(
+                                                'Content-Type',
+                                                'application/json'
+                                            );
+                                            res.json(
+                                                'Assignment deleted successfully!'
+                                            );
+                                        })
+                                        .catch((err) => {
+                                            if (
+                                                err.kind === 'ObjectId' ||
+                                                err.name === 'NotFound'
+                                            ) {
+                                                return res.status(404).send({
+                                                    message:
+                                                        'Assignment not found with id ' +
+                                                        req.params.assignmentId
+                                                });
+                                            }
+                                            return res.status(500).send({
+                                                message:
+                                                    'Could not delete assignment with id ' +
+                                                    req.params.assignmentId
+                                            });
+                                        });
                                 })
                                 .catch((err) => {
                                     if (

@@ -74,6 +74,7 @@ const classroomController = {
                 message: 'You are not authorized to update a class!'
             });
         }
+
         Classroom.findByIdAndUpdate(
             req.params.classId,
             {
@@ -88,9 +89,42 @@ const classroomController = {
                     });
                 }
                 if (c.teacher.id.equals(req.user._id)) {
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json(c);
+                    if (!isEmpty(req.body.students)) {
+                        const assignmentStatus = c.assignments.map((assign) => {
+                            return { assignmentId: assign._id };
+                        });
+
+                        Users.updateMany(
+                            { _id: { $in: req.body.students } },
+                            {
+                                $addToSet: {
+                                    classes: Types.ObjectId(req.params.classId),
+                                    assignments: assignmentStatus
+                                }
+                            }
+                        )
+                            .then(() => {
+                                res.statusCode = 200;
+                                res.setHeader(
+                                    'Content-Type',
+                                    'application/json'
+                                );
+                                res.json(c);
+                            })
+                            .catch((err) => {
+                                if (err.kind === 'ObjectId') {
+                                    return res.status(404).send({
+                                        message:
+                                            'Please enter the appropriate Object id'
+                                    });
+                                }
+                                return res.status(500).send({
+                                    message:
+                                        'Error updating class with id ' +
+                                        req.params.classId
+                                });
+                            });
+                    }
                 } else {
                     return res.status(400).send({
                         message: 'You are not authorized to update this class!'
@@ -125,18 +159,39 @@ const classroomController = {
                     });
                 }
                 if (c.teacher.id.equals(req.user._id)) {
-                    Assignments.deleteMany({ _id: { $in: c.assignments } })
+                    const toDel = c.students.push(req.user._id);
+                    const assignmentIds = c.assignments.map(
+                        (assignment) => assignment._id
+                    );
+
+                    Users.updateMany(
+                        { _id: { $in: toDel } },
+                        {
+                            $pullAll: {
+                                classrooms: req.params.classId,
+                                assignments: { assignmentId: c.assignments }
+                            }
+                        }
+                    )
                         .then(() => {
-                            Classroom.findByIdAndRemove(
-                                req.params.classId
-                            ).then(() => {
-                                res.statusCode = 200;
-                                res.setHeader(
-                                    'Content-Type',
-                                    'application/json'
-                                );
-                                res.json('Classroom deleted successfully!');
-                            });
+                            Assignments.deleteMany({
+                                _id: { $in: c.assignments }
+                            })
+                                .then(() => {
+                                    Classroom.findByIdAndRemove(
+                                        req.params.classId
+                                    ).then(() => {
+                                        res.statusCode = 200;
+                                        res.setHeader(
+                                            'Content-Type',
+                                            'application/json'
+                                        );
+                                        res.json(
+                                            'Classroom deleted successfully!'
+                                        );
+                                    });
+                                })
+                                .catch((err) => next(err));
                         })
                         .catch((err) => next(err));
                 } else {

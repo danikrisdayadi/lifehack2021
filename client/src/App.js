@@ -60,6 +60,9 @@ const App = () => (
                 style={{ paddingLeft: 160, paddingRight: 160, height: '100%' }}
             >
                 <Switch>
+                    <Route exact path="/">
+                        <Redirect to="login" />
+                    </Route>
                     <Route
                         exact
                         path="/leaderboard"
