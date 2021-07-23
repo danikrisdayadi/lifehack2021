@@ -1,85 +1,116 @@
 import React, { useState } from 'react';
-import { Card, Image, ProgressBar, Button } from 'react-bootstrap';
+import { Card, Image, ProgressBar, Button, Container, Col, Row } from 'react-bootstrap';
 import DogProfile from '../assets/hurt.png';
-
+import styled from 'styled-components';
+import Coin from '../assets/coin.svg'
 const LeaderBoard = ({ ...props }) => {
-    const [students, setStudents] = useState([
+    const gradient = ["#001219", "#005f73", "#0a9396", "#94d2bd", "#e9d8a6", "#ee9b00", "#ca6702", "#bb3e03", "#ae2012", "#9b2226"];
+
+    const Style = styled.div`
+        .bg-progress0 {
+            background-color: ${gradient[0]};
+        }
+        .bg-progress1 {
+            background-color: ${gradient[1]};
+        }
+        .bg-progress2 {
+            background-color: ${gradient[2]};
+        }
+        .bg-progress3 {
+            background-color: ${gradient[3]};
+        }
+        .bg-progress4 {
+            background-color: ${gradient[4]};
+        }
+        .bg-progress5 {
+            background-color: ${gradient[5]};
+        }
+        .bg-progress6 {
+            background-color: ${gradient[6]};
+        }
+        .bg-progress7 {
+            background-color: ${gradient[7]};
+        }
+        .bg-progress8 {
+            background-color: ${gradient[8]};
+        }
+
+    `
+    const students = [
+        {
+            name: 'Ayam 0',
+            profile: DogProfile,
+            level: 35,
+            progress: 80
+        },
         {
             name: 'Ayam 1',
-            profile: 'https://www.gravatar.com/avatar'
+            profile: DogProfile,
+            level: 21,
+            progress: 80
         },
         {
             name: 'Ayam 2',
-            profile: 'https://www.gravatar.com/avatar'
+            profile: DogProfile,
+            level: 16,
+            progress: 90
         },
         {
             name: 'Ayam 3',
-            profile: 'https://www.gravatar.com/avatar'
+            profile: DogProfile,
+            level: 9,
+            progress: 50
         }
-    ]);
+    ];
 
     let rank = 0;
 
     const leaderboard = students.map((student) => {
         rank += 1;
         return (
+            <Style>
             <Card key={student.name}>
                 <Card.Body>
-                    <div
-                        id="profile"
-                        style={{ width: '30%', display: 'inline-block' }}
-                    >
-                        <h1
-                            style={{
-                                display: 'inline-block',
-                                marginRight: '10%'
-                            }}
-                        >
-                            #{rank}
-                        </h1>
+                    <Row className="align-items-center">
+                    <Col lg="auto" >
+                            <h3 style={{marginBottom: 0}}>
+                                #{rank}
+                            </h3>
+                    </Col>
+                    <Col lg="auto">
                         <Image
-                            src={DogProfile}
+                            src={student.profile}
                             width="100px"
                         />
-                    </div>
-                    <div
-                        id="progressBar"
-                        style={{ width: '40%', display: 'inline-block' }}
-                    >
-                        <Card.Title style={{ textAlign: 'left' }}>
-                            {' '}
-                            {student.name}{' '}
-                        </Card.Title>
-                        <ProgressBar
-                            now="80"
-                            visuallyHidden
-                            variant="success"
-                            label="110/250"
-                        />
-                    </div>
-                    <div
-                        id="profile"
-                        style={{ width: '30%', display: 'inline-block' }}
-                    >
-                        <h3
-                            style={{
-                                display: 'inline-block',
-                                marginRight: '10%'
-                            }}
-                        >
-                            Lvl 18
-                        </h3>
-                        <Button style={{ display: 'inline-block' }}>
-                            Give a coin
+                    </Col>
+                    <Col lg={6}>
+                        <Row><h5>{student.name}</h5></Row>
+                        <Row>
+                            <ProgressBar
+                                now={student.progress}
+                                variant={'progress' + Math.floor(student.level / 10)}
+                                label={`${student.progress}/250`}
+                                style={{width: "100%", color: "#9b2226 !important"}}
+                            />
+                        </Row>
+                    </Col>
+                    <Col>
+                        <h3 style={{marginBottom: 0}}>Lv. {student.level}</h3>
+                        </Col>
+                    <Col>
+                        <Button>Give {' '}
+                            <img src={Coin} width="20px"/>
                         </Button>
-                    </div>
+                    </Col>
+                    </Row>
                 </Card.Body>
             </Card>
+            </Style>
         );
     });
 
     return (
-        <React.Fragment>
+        <Container>
             <div id="leaderboard-title" style={{ textAlign: 'left' }}>
                 <h2>Subject: Mathematics LeaderBoard</h2>
                 <p>Level: Secondary 1</p>
@@ -87,7 +118,7 @@ const LeaderBoard = ({ ...props }) => {
             <div className="container">
                 <div>{leaderboard}</div>
             </div>
-        </React.Fragment>
+        </Container>
     );
 };
 
