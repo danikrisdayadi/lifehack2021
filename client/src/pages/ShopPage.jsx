@@ -53,15 +53,6 @@ const ShopPage = () => {
         }
     ];
 
-    const chunk = (arr, chunkSize = 1, cache = []) => {
-        const tmp = [...arr];
-        if (chunkSize <= 0) return cache;
-        while (tmp.length) cache.push(tmp.splice(0, chunkSize));
-        return cache;
-    };
-
-    const charactersChunks = chunk(characters, 4);
-
     const button = (character) => {
         if (true) {
             // if character is not purchased
@@ -115,22 +106,19 @@ const ShopPage = () => {
         }
     };
 
-    const charactersList = charactersChunks.map((charactersChunk) => {
-        const characterCols = charactersChunk.map((character) => {
-            return (
-                <Col>
-                    <Card style={{ width: '18rem', border: '0px', flex: 1 }}>
-                        <Card.Body>
-                            <Col lg="auto">
-                                <Row>{characterImage(character)}</Row>
-                                <Row>{button(character)}</Row>
-                            </Col>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            );
-        });
-        return <Row>{characterCols}</Row>;
+    const charactersList = characters.map((character) => {
+        return (
+            <Col>
+                <Card style={{ width: '18rem', border: '0px', flex: 1 }}>
+                    <Card.Body>
+                        <Col lg="auto">
+                            <Row>{characterImage(character)}</Row>
+                            <Row>{button(character)}</Row>
+                        </Col>
+                    </Card.Body>
+                </Card>
+            </Col>
+        );
     });
 
     return (
@@ -145,7 +133,7 @@ const ShopPage = () => {
                 <h4>Avatars (34% complete)</h4>
             </div>
             <div className="container"></div>
-            <div>{charactersList}</div>
+            <Row lg={4}>{charactersList} </Row>
         </Container>
     );
 };
