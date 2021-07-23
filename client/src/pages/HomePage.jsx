@@ -36,6 +36,9 @@ const HomePage = ({ ...props }) => {
     function onClickCard(queryId) {
         props.history.push('/class/' + queryId);
     }
+    function viewProfile() {
+        props.history.push('/profile');
+    }
 
     let idx = 0;
     const classCard = classes.map((c) => {
@@ -43,6 +46,7 @@ const HomePage = ({ ...props }) => {
         return (
             <Col>
                 <Card
+                    id ="class-card"
                     style={{
                         backgroundColor: `${homeGradient[Math.floor(idx % 6)]}`,
                         textAlign: 'left',
@@ -71,7 +75,7 @@ const HomePage = ({ ...props }) => {
                 <br></br>
                 <UserProfile></UserProfile>
                 <br></br>
-                <Button variant="secondary" style={{ float: 'right' }}>
+                <Button variant="secondary" style={{ float: 'right' }} onClick={() => viewProfile()}>
                     View Profile
                 </Button>
             </div>
