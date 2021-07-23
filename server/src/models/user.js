@@ -48,28 +48,26 @@ export const userSchema = new Schema(
                 ref: 'Class'
             }
         ],
-        assignmens: [
+        assignments: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Assignment'
             }
         ],
         coins: {
-            type: Number, 
+            type: Number,
             default: 0
         },
         xp: {
-            type: Number, 
-            default: 0  
+            type: Number,
+            default: 0
         },
         level: {
-            type: Number, 
-            default: 0  
+            type: Number,
+            default: 0
         },
         characters: [characterSchema],
-        items: [
-            itemSchema
-        ],
+        items: [itemSchema],
         confirmationCode: {
             type: String,
             unique: true
