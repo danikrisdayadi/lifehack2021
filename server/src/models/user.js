@@ -5,6 +5,7 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 const itemSchema = require('./item');
 const characterSchema = require('./character');
+const assignmentStatusSchema = require('./assignmentStatus');
 
 const userSchema = new Schema(
     {
@@ -44,18 +45,13 @@ const userSchema = new Schema(
                 ref: 'Post'
             }
         ],
-        classes: [
+        classrooms: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'Class'
+                ref: 'Classroom'
             }
         ],
-        assignments: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Assignment'
-            }
-        ],
+        assignments: [assignmentStatusSchema],
         coins: {
             type: Number,
             default: 0
@@ -69,6 +65,7 @@ const userSchema = new Schema(
             default: 0
         },
         characters: [characterSchema],
+        avatar: characterSchema,
         items: [itemSchema],
         confirmationCode: {
             type: String,

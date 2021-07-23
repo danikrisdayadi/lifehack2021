@@ -10,13 +10,13 @@ const providers = {
     }
 };
 
-exports.validateWithProvider = async (socialToken) => {
+const validateWithProvider = async (socialToken) => {
     return new Promise((resolve, reject) => {
-        const url = providers[network].url;
-        const queryString = providers[network].qs + socialToken;
+        const url =
+            'https://oauth2.googleapis.com/tokeninfo?id_token=' + socialToken;
 
         https
-            .get(url + queryString, (res) => {
+            .get(url, (res) => {
                 let data = '';
                 res.on('data', (chunk) => {
                     data += chunk;
@@ -30,3 +30,5 @@ exports.validateWithProvider = async (socialToken) => {
             });
     });
 };
+
+module.exports = validateWithProvider;

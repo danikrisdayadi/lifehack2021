@@ -68,21 +68,18 @@ const HomePage = ({ ...props }) => {
 
     return (
         <Container>
-            <div id="home-profile">
-                <h1 style={{ textAlign: 'left', marginTop: '4%' }}>
-                    Welcome Back!
-                </h1>
-                <br></br>
-                <UserProfile></UserProfile>
-                <br></br>
-                <Button variant="secondary" style={{ float: 'right' }} onClick={() => viewProfile()}>
-                    View Profile
-                </Button>
-            </div>
-            <div id="home-class" style={{ marginBottom: '5%' }}>
-                <h3 style={{ textAlign: 'left', marginTop: '4%' }}>Classes</h3>
-                <Row lg={3}>{classCard} </Row>
-            </div>
+                <div id="home-profile">
+                    <h1 style={{textAlign:"left", marginTop:'4%'}}>Welcome Back, ZeGrandmaster!</h1>
+                    <br></br>
+                    <h3 style={{textAlign:"left"}}>Profile</h3>
+                    <UserProfile></UserProfile>
+                    <br></br>
+                    <Button variant="secondary" style={{float:"right"}} onClick={() => viewProfile()>Full Profile</Button>
+                </div>
+                <div id="home-class" style={{marginBottom:'5%'}}>
+                    <h3 style={{textAlign:"left", marginTop:'4%'}}>Classes</h3>
+                    <Row lg={3}>{classCard} </Row>
+                </div>
         </Container>
     );
 };
