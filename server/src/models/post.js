@@ -1,7 +1,7 @@
 import mongoose, { Types, Schema, Model, Document } from 'mongoose';
 import { commentSchema } from './comment';
 
-const postSchema: Schema = new Schema(
+export const postSchema = new Schema(
     {
         title: {
             type: String,
