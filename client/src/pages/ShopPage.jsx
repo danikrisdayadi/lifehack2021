@@ -10,14 +10,14 @@ import {
     Row,
     CardGroup
 } from 'react-bootstrap';
-import DogProfile from '../assets/hurt.png';
+
 import styled from 'styled-components';
 import Coin from '../assets/coin.svg';
 import Blur from 'react-css-blur';
 
 const ShopPage = () => {
     const gradient = ['#001219', '#0a9396'];
-
+    const DogProfile = `${process.env.PUBLIC_URL}/avatars/dog.png`
     const characters = [
         {
             image: DogProfile,
