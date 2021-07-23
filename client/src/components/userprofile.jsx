@@ -1,6 +1,7 @@
 import React from "react";
 import {ProgressBar, Image, Card, Col, Row} from "react-bootstrap";
 import DogProfile from '../assets/hurt.png';
+import Coin from '../assets/coin.svg'
 import styled from "styled-components";
 import { gradient } from "../utils/colours";
 
@@ -78,8 +79,15 @@ const UserProfile = () => {
         <Card >
             <Card.Body>
               <Row className="align-items-center">
-                  <Col lg="auto">
-                      <Image src={DogProfile} />
+                  <Col lg="auto" classname="justify-content-center">
+                      <Row>
+                        <Image src={DogProfile} />
+                      </Row>
+                      <br></br>
+                      <Row className="justify-content-center">
+                        <h3 style={{marginBottom: 0}}>300{' '}</h3>
+                        <Image src={Coin} width="25px" style={{marginLeft: 5}}/>
+                      </Row>
                   </Col>
                   <Col style={{textAlign: "left"}}>
                     {userSummary}

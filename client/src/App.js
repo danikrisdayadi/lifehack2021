@@ -5,6 +5,7 @@ import UserProfile from './components/userprofile';
 import NavigationBar from './components/navigationbar'
 import './App.css';
 
+// Import Pages
 import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage';
 import LeaderboardPage from './pages/LeaderboardPage';
@@ -12,6 +13,7 @@ import Classes from './components/classes';
 import ClassroomPage from './pages/ClassroomPage';
 import Assignments from './components/assignments';
 import HomePage from './pages/HomePage'
+import ProfilePage from './pages/ProfilePage';
 
 const App = () => (
     <div className="App">
@@ -39,7 +41,7 @@ const App = () => (
                 <Route
                     path="/profile"
                     exact
-                    component={UserProfile}
+                    component={ProfilePage}
                 />
                 <Route
                     path="/classes"
