@@ -13,10 +13,9 @@ import ClassroomPage from './pages/ClassroomPage';
 import Assignments from './components/assignments';
 import HomePage from './pages/HomePage'
 const App = () => (
-    
     <div className="App">
         <NavigationBar></NavigationBar>
-        <Container fluid style={{paddingLeft: 160, paddingRight: 160}}>
+        <Container fluid style={{paddingLeft: 160, paddingRight: 160, height: "100%"}}>
             <Switch>
                 <Route exact path="/">
                     <Redirect to="login" />
