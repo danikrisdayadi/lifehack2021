@@ -57,7 +57,7 @@ export const loginUser = (userData, history, isSocial) => (dispatch) => {
             loadUserProfile(decoded._id)(dispatch);
         })
         .then(() => {
-            history.push('/landscapes');
+            history.push('/home');
         })
         .catch((err) => {
             // End of request

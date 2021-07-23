@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const classSchema = new Schema(
+const classroomSchema = new Schema(
     {
         subject: {
             type: String,
@@ -29,5 +29,5 @@ const classSchema = new Schema(
     }
 );
 
-const Class = mongoose.model('Class', classSchema);
-module.exports = Class;
+const Classroom = mongoose.model('Classroom', classroomSchema);
+module.exports = Classroom;

@@ -1,8 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
+import { connect } from 'react-redux';
 import { Button, Image } from 'react-bootstrap';
 import GoogleLogo from '../../assets/google.svg';
+
+import { loginUser, registerUser } from '../../redux/actions/AuthActions';
 
 const Google = (props) => {
     const responseGoogle = (res) => {
@@ -13,7 +16,6 @@ const Google = (props) => {
 
         if (!props.auth.isAuthenticated) {
             props.loginUser(userData, props.history, true);
-            props.setDisableSubmit(true);
         }
     };
 
@@ -50,4 +52,11 @@ const Google = (props) => {
     return <div>{googleContent}</div>;
 };
 
-export default withRouter(Google);
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+    errors: state.errors
+});
+
+export default connect(mapStateToProps, { registerUser, loginUser })(
+    withRouter(Google)
+);

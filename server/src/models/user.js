@@ -44,10 +44,10 @@ const userSchema = new Schema(
                 ref: 'Post'
             }
         ],
-        classes: [
+        classrooms: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'Class'
+                ref: 'Classroom'
             }
         ],
         assignments: [

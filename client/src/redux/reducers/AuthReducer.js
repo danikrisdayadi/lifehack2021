@@ -1,9 +1,5 @@
 import isEmpty from 'is-empty';
-import {
-    SET_CURRENT_USER,
-    USER_LOADING,
-    SET_USER_STATUS
-} from '../actions/types';
+import { SET_CURRENT_USER, USER_LOADING } from '../actions/types';
 
 const initialState = {
     isAuthenticated: false,
@@ -14,7 +10,6 @@ const initialState = {
         iat: 0,
         exp: 0
     },
-    status: 'Pending',
     loading: false
 };
 
@@ -30,11 +25,6 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: action.payload
-            };
-        case SET_USER_STATUS:
-            return {
-                ...state,
-                status: action.payload
             };
         default:
             return state;
