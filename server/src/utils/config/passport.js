@@ -18,7 +18,7 @@ passport.serializeUser(Users.serializeUser());
 passport.deserializeUser(Users.deserializeUser());
 
 // Creates a JWT using secret key
-export const getToken = (user) => {
+exports.getToken = (user) => {
     return jwt.sign(user, process.env.PASSPORT_SECRET_KEY, {
         expiresIn: 10000
     });
@@ -34,7 +34,7 @@ const opts = Object.create({});
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.PASSPORT_SECRET_KEY;
 
-export const jwtPassport = passport.use(
+exports.jwtPassport = passport.use(
     new JwtStrategy(opts, (jwt_payload, done) => {
         Users.findById(jwt_payload._id)
             .then((user) => {
@@ -54,7 +54,7 @@ export const jwtPassport = passport.use(
 );
 
 // To verify user credentials using jwt
-export const verifyUser = (req, res, next) => {
+exports.verifyUser = (req, res, next) => {
     passport.authenticate('jwt', { session: false }, (err, user) => {
         if (err || !user) {
             res.status(403).json({

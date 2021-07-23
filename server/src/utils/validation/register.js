@@ -9,7 +9,7 @@ const isEmpty = require('is-empty');
  * @param {*} data
  * @returns {*} errors
  */
-export function validateRegisterInput(data) {
+exports.validateRegisterInput = (data) => {
     let errors = {};
 
     // Convert empty fields to empty or placeholder strings to be able to use validator functions
@@ -64,4 +64,4 @@ export function validateRegisterInput(data) {
         errors,
         success: isEmpty(errors)
     };
-}
+};

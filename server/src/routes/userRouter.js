@@ -1,8 +1,3 @@
-/**
- * Added an empty export to fix the
- * "cannot redeclare block scoped variable" error
- */
-export {};
 const express = require('express');
 const userController = require('../controllers/userController');
 const authenticate = require('../utils/config/passport');

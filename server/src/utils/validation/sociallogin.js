@@ -10,7 +10,7 @@ const providers = {
     }
 };
 
-export const validateWithProvider = async (socialToken) => {
+exports.validateWithProvider = async (socialToken) => {
     return new Promise((resolve, reject) => {
         const url = providers[network].url;
         const queryString = providers[network].qs + socialToken;

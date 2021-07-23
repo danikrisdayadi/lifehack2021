@@ -1,4 +1,4 @@
-import isEmpty from 'is-empty';
+const isEmpty = require('is-empty');
 
 // Import middlewares
 const passport = require('passport');
@@ -7,7 +7,7 @@ const authenticate = require('../utils/config/passport');
 // Load input validation
 const validateRegisterInput = require('../utils/validation/register');
 const validateLoginInput = require('../utils/validation/login');
-import { validateWithProvider } from '../utils/validation/sociallogin';
+const validateWithProvider = require('../utils/validation/sociallogin');
 
 // Import schema model of users
 const Users = require('../models/user');
@@ -301,15 +301,16 @@ exports.getUser = (req, res, next) => {
  */
 exports.putUser = (req, res, next) => {
     if (req.body.username) {
-        const user = await Users.find({ username: req.body.username });
-        if (!isEmpty(user)) {
-            console.log('Username is taken');
-            res.status(400).json({
-                error: 'Bad Request',
-                message: 'Username is taken!'
-            });
-            return;
-        }
+        Users.find({ username: req.body.username }).then((user) => {
+            if (!isEmpty(user)) {
+                console.log('Username is taken');
+                res.status(400).json({
+                    error: 'Bad Request',
+                    message: 'Username is taken!'
+                });
+                return;
+            }
+        });
     }
 
     Users.findByIdAndUpdate(

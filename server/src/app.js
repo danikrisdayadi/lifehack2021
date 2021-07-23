@@ -8,6 +8,7 @@ const http = require('http');
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 // Import routes
+const userRouter = require('./routes/userRouter');
 const assignmentRouter = require('./routes/assignmentRouter');
 const postRouter = require('./routes/postRouter');
 
@@ -34,6 +35,7 @@ const url = process.env.MONGO_URI;
 const port = process.env.PORT || 5000;
 
 // Declare routes
+app.use('/api/users', userRouter);
 app.use('/api/assignments', assignmentRouter);
 app.use('/api/posts', postRouter);
 
@@ -81,4 +83,3 @@ server.listen(port, () => {
 
 //Export app for testing
 module.exports = server;
-// export default app;
