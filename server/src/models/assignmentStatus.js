@@ -8,7 +8,7 @@ const assignmentStatusSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['To be completed', 'Completed', 'Expired'],
+        enum: ['To be completed', 'Completed'],
         default: 'To be completed'
     },
     mark: {

@@ -16,7 +16,10 @@ const assignmentSchema = new mongoose.Schema(
             type: Date,
             required: true
         },
-
+        isExpired: {
+            type: Boolean,
+            default: false
+        },
         questions: [questionSchema],
         author: {
             type: Schema.Types.ObjectId,
