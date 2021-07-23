@@ -1,21 +1,23 @@
+const express = require('express')
+
 const Assignment = require('../models/assignment');
 
 const assignmentController = {
     getAllAssignments(req, res) {
         try {
-            Assignment.find({}).exec((err, assignments) =>
-                res.json(assignments)
-            );
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
+            Assignment.find({}).then((assignments) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(assignments);
+            })
         } catch (err) {
             res.status(500).send(err);
         }
     },
 
-    getAssignment(req, res) {
-        const assignment = Assignment.findById(req.params.assignmentId);
-        if (assignment != null) {
+    getAssignment(req, res, next) {
+        Assignment.findById(req.params.assignmentId).then((assignment) => {
+            if (assignment != null) {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
             res.json(assignment);
@@ -26,6 +28,8 @@ const assignmentController = {
             res.statusCode = 404;
             return next(err);
         }
+        }).catch((err) => next(err));
+        
     },
 
     postAssignment(req, res) {
@@ -79,8 +83,7 @@ const assignmentController = {
                 if (err.kind === 'ObjectId') {
                     return res.status(404).send({
                         message:
-                            'Assignment not found with id ' +
-                            req.params.assignmentId
+                            'Please enter the appropriate Object id'
                     });
                 }
                 return res.status(500).send({

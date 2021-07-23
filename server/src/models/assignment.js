@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const questionSchema = require('questionSchema');
+const questionSchema = require('./question');
 
 const assignmentSchema = new mongoose.Schema(
     {
@@ -21,7 +21,12 @@ const assignmentSchema = new mongoose.Schema(
             enum: ['To be completed', 'Completed', 'Expired'],
             default: 'To be completed'
         },
-        questions: [questionSchema]
+        questions: [questionSchema],
+        // author: {
+        //     type: Schema.Types.ObjectId,
+        //     ref: 'User',
+        //     required: true
+        // },
     },
     {
         timestamps: true

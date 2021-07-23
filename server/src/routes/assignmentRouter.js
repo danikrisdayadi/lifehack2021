@@ -1,38 +1,43 @@
 const express = require('express');
-const cors = require('cors');
-const corsOptionsDelegate = require('../../node_modules/cors');
-const asyncHandler = require('express-async-handler');
+// const cors = require('cors');
+// const corsOptionsDelegate = require('../../node_modules/cors');
 
-const router = express.Router();
-router.use(express.json());
+const assignmentRouter = express.Router();
+assignmentRouter.use(express.json());
+
 const assignmentController = require('../controllers/assignmentController');
 const questionController = require('../controllers/questionController');
 
-router.get('/', assignmentController.getAllAssignments);
-router.get('/:assignmentId', assignmentController.getAssignment);
-router.post('/:assignmentId', assignmentController.postAssignment);
-router.put('/:assignmentId', assignmentController.updateAssignment);
-router.delete('/:assignmentId', assignmentController.deleteAssignment);
+assignmentRouter
+    .route('/')
+    .get(assignmentController.getAllAssignments)
+    .post(assignmentController.postAssignment)
 
-router.get(
-    '/:assignmentId/questions',
-    questionController.getAssignmentQuestions
-);
-router.get(
-    '/:assignmentId/questions/:questionId',
-    questionController.getQuestion
-);
-router.post(
-    '/:assignmentId/questions/:questionId',
-    questionController.postQuestion
-);
-router.put(
-    '/:assignmentId/questions/:questionId',
-    questionController.updateQuestion
-);
-router.delete(
-    '/:assignmentId/questions/:questionId',
-    questionController.deleteQuestion
-);
+assignmentRouter
+    .route('/:assignmentId')
+    .get(assignmentController.getAssignment)
+    .put(assignmentController.updateAssignment)
+    .delete(assignmentController.deleteAssignment);
 
-module.exports = router;
+
+assignmentRouter
+    .route('/:assignmentId/questions')    
+    .get(
+        questionController.getAssignmentQuestions
+    )
+    .post(
+        questionController.postQuestion)
+
+assignmentRouter
+    .route('/:assignmentId/questions/:questionId')
+    .get(
+        questionController.getQuestion
+    )
+        
+    .put(
+        questionController.updateQuestion
+    ).delete(
+        questionController.deleteQuestion
+    );
+
+module.exports = assignmentRouter;

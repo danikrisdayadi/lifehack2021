@@ -1,122 +1,166 @@
-const Question = require('../models/question');
+const Assignment = require('../models/assignment');
 
 const questionController = {
-    getAssignmentQuestions(req, res) {
-        try {
-            Question.find({}).exec((err, questions) => res.json(questions));
+    getAssignmentQuestions(req, res, next) {
+        Assignment
+        .findById(req.params.assignmentId)
+        .then(
+        (assignment) => {
+          if (assignment != null) {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
-        } catch (err) {
-            res.status(500).send(err);
-        }
-    },
-
-    getQuestion(req, res) {
-        const question = Question.findById(req.params.questionId);
-        if (question != null) {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(question);
-        } else {
-            let err = new Error(
-                'Question ' + req.params.questionId + ' not found!'
-            );
-            res.statusCode = 404;
+            res.json(assignment.questions);
+          } else {
+            err = new Error('Assignment ' + req.params.assignmentId + ' not found');
+            err.status = 404;
             return next(err);
-        }
+          }
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
     },
 
-    postQuestion(req, res) {
-        if (!req.body.asnwer) {
-            return res.status(400).send({
-                message: 'Answer cannot be empty'
-            });
-        }
-
-        const question = new Question({
-            content: req.body.content,
-            image: req.body.image,
-            answer: req.body.answer
-        });
-
-        question
-            .save()
-            .then((data) => {
-                res.send(data);
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    message:
-                        err.message ||
-                        'Some error occurred while creating the question.'
-                });
-            });
+    getQuestion(req, res, next) {
+        Assignment.findById(req.params.assignmentId)
+      .then(
+        (assignment) => {
+          if (assignment != null) {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(assignment.questions);
+          } else {
+            err = new Error('Dish ' + req.params.assignmentId + ' not found');
+            err.status = 404;
+            return next(err);
+          }
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
     },
 
-    updateQuestion(req, res) {
-        Question.findByIdAndUpdate(
-            req.params.questionId,
-            {
-                $set: req.body
-            },
-            { new: true }
-        )
-            .then((question) => {
-                if (!question) {
-                    return res.status(404).send({
-                        message:
-                            'question not found with id ' +
-                            req.params.questionId
-                    });
-                }
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(question);
-            })
-            .catch((err) => {
-                if (err.kind === 'ObjectId') {
-                    return res.status(404).send({
-                        message:
-                            'Question not found with id ' +
-                            req.params.questionId
-                    });
-                }
-                return res.status(500).send({
-                    message:
-                        'Error updating question with id ' +
-                        req.params.questionId
-                });
-            });
+    postQuestion(req, res, next) {
+        Assignment.findById(req.params.assignmentId)
+      .then(
+        (assignment) => {
+          if (assignment != null) {
+            assignment.questions.push(req.body);
+            assignment.save().then(
+              (assignment) => {
+                Assignment.findById(assignment._id)
+                  .populate('questions.author')
+                  .then((assignment) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(assignment);
+                  });
+              },
+              (err) => next(err)
+            );
+          } else {
+            err = new Error('Assignment ' + req.params.assignmentId + ' not found');
+            err.status = 404;
+            return next(err);
+          }
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
     },
 
-    deleteQuestion(req, res) {
-        Question.findByIdAndRemove(req.params.questionId)
-            .then((question) => {
-                if (!question) {
-                    return res.status(404).send({
-                        message:
-                            'Question not found with id ' +
-                            req.params.questionId
+    updateQuestion(req, res, next) {
+        Assignment.findById(req.params.assignmentId)
+      .then(
+        (assignment) => {
+          if (assignment != null && assignment.questions.id(req.params.questionId) != null) {
+            if (true
+            //   assignment.author.equals(req.user._id)
+            ) {
+              if (req.body.content) {
+                assignment.questions.id(req.params.questionId).content = req.body.content;
+              }
+              if (req.body.image) {
+                assignment.questions.id(req.params.questionId).image =
+                  req.body.image;
+              }
+
+              if (req.body.answer) {
+                   assignment.questions.id(req.params.questionId).answer =
+                  req.body.answer;
+              }
+
+              assignment.save().then(
+                (assignment) => {
+                  Assignment.findById(assignment._id)
+                    .populate('questions.author')
+                    .then((assignment) => {
+                      res.statusCode = 200;
+                      res.setHeader('Content-Type', 'application/json');
+                      res.json(assignment);
                     });
-                }
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json('question deleted successfully!');
-            })
-            .catch((err) => {
-                if (err.kind === 'ObjectId' || err.name === 'NotFound') {
-                    return res.status(404).send({
-                        message:
-                            'Question not found with id ' +
-                            req.params.questionId
+                },
+                (err) => next(err)
+              );
+            } else {
+              err = new Error('You are not authorized to update this question!');
+              err.status = 403;
+              return next(err);
+            }
+          } else if (assignment == null) {
+            err = new Error('Assignment ' + req.params.assignmentId + ' not found');
+            err.status = 404;
+            return next(err);
+          } else {
+            err = new Error('Question ' + req.params.questionId + ' not found');
+            err.status = 404;
+            return next(err);
+          }
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
+    },
+
+    deleteQuestion(req, res, next) {
+        Assignment.findById(req.params.assignmentId)
+      .then(
+        (assignment) => {
+          if (assignment != null && assignment.questions.id(req.params.questionId) != null) {
+            if (true
+            //   assignment.questions.id(req.params.questionId).author.equals(req.user._id)
+            ) {
+              assignment.questions.id(req.params.questionId).remove();
+              assignment.save().then(
+                (assignment) => {
+                  Assignment.findById(assignment._id)
+                    .populate('questions.author')
+                    .then((assignment) => {
+                      res.statusCode = 200;
+                      res.setHeader('Content-Type', 'application/json');
+                      res.json(assignment);
                     });
-                }
-                return res.status(500).send({
-                    message:
-                        'Could not delete question with id ' +
-                        req.params.questionId
-                });
-            });
+                },
+                (err) => next(err)
+              );
+            } else {
+              err = new Error('You are not authorized to delete this question!');
+              err.status = 403;
+              return next(err);
+            }
+          } else if (assignment == null) {
+            err = new Error('Assignment ' + req.params.assignmentId + ' not found');
+            err.status = 404;
+            return next(err);
+          } else {
+            err = new Error('Question ' + req.params.questionId + ' not found');
+            err.status = 404;
+            return next(err);
+          }
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
     }
 };
 
