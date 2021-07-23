@@ -1,6 +1,7 @@
-import { Types, Document, Schema } from 'mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-export const replySchema = new Schema(
+const replySchema = new Schema(
     {
         content: {
             type: String,
@@ -17,4 +18,4 @@ export const replySchema = new Schema(
     }
 );
 
-export const Replies = mongoose.model < ReplyDocument > ('Reply', replySchema);
+module.exports = replySchema;
