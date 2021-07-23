@@ -3,9 +3,9 @@ import { Card, Image, ProgressBar, Button, Container, Col, Row } from 'react-boo
 import DogProfile from '../assets/hurt.png';
 import styled from 'styled-components';
 import Coin from '../assets/coin.svg'
+import {gradient} from '../utils/colours';
 
 const Leaderboard = () => {
-    const gradient = ["#001219", "#005f73", "#0a9396", "#94d2bd", "#e9d8a6", "#ee9b00", "#ca6702", "#bb3e03", "#ae2012", "#9b2226"];
 
     const Style = styled.div`
         .bg-progress0 {
