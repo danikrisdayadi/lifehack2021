@@ -12,7 +12,10 @@ import Classes from './components/classes';
 import ClassroomPage from './pages/ClassroomPage';
 import Assignments from './components/assignments';
 import HomePage from './pages/HomePage';
+import AssignmentCover from './components/assignmentCover';
+import Question from './components/question';
 import ShopPage from './pages/ShopPage';
+
 const App = () => (
     <div className="App">
         <NavigationBar></NavigationBar>
@@ -30,6 +33,25 @@ const App = () => (
                 <Route path="/profile" exact component={UserProfile} />
                 <Route path="/classes" exact component={Classes} />
                 <Route path="/assignments" exact component={Assignments} />
+                <Route
+                    path="/assignment/:queryId"
+                    exact
+                    render={(props) => (
+                        <AssignmentCover
+                            key={props.match.params.queryId}
+                            history={props.history}
+                        />
+                    )}
+                />
+                <Route
+                    path="/assignment/:queryId/question/:queryId"
+                    exact
+                    render={(props) => (
+                        <Question
+                            key={props.match.params.queryId}
+                        />
+                    )}
+                />
                 <Route
                     path="/class/:queryId"
                     exact
