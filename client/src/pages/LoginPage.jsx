@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { Row, Col, Container, Button, Image, Card } from 'react-bootstrap';
+import { Row, Col, Container, Button, Image } from 'react-bootstrap';
 import Logo from '../assets/Logo.svg';
 import GoogleLogo from '../assets/google.svg'
 import Illustration from '../assets/undraw-thinking.svg'; 
@@ -51,23 +51,22 @@ const LoginPage = () => {
                         </Row>
                     </Col>
                     <Col className="align-self-center">
-                        <Card>
                         <Row className="justify-content-center">
-                            <h3>Login to your account</h3>
+                            <h3>Start your Journey Here</h3>
                         </Row>
                         <br />
                         <Row className="justify-content-center">
-                            <Button variant="dark">
+                            <Button variant="outline-dark" style={{padding: "10px 20px"}}>
                                 <Image
                                     src={GoogleLogo}
                                     alt="google-login"
                                     height={25}
                                     width={20}
+                                    style={{marginRight: 5}}
                                 /> {' '}
                             Sign in with Google
                         </Button>
                         </Row>
-                        </Card>
                     </Col>
                 </Row>
             </Style>
