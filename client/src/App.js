@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
@@ -85,6 +85,12 @@ const App = () => (
 
                     <Route path="/profile" exact component={ProfilePage} />
                     <Route
+                        path="/profile/:queryId"
+                        render={(props) => (
+                            <ProfilePage key={props.match.params.queryId} />
+                        )}
+                    />
+                    <Route
                         path="/assignment/:queryId/question/:queryId"
                         exact
                         render={(props) => (
@@ -100,12 +106,6 @@ const App = () => (
                     />
                     <Route path="/home" exact component={HomePage} />
                     <Route path="/shop" exact component={ShopPage} />
-                    <Route
-                        path="/profile/:queryId"
-                        render={(props) => (
-                            <ProfilePage key={props.match.params.queryId} />
-                        )}
-                    />
                 </Switch>
             </Container>
         </Provider>

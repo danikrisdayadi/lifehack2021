@@ -64,7 +64,7 @@ const userSchema = new Schema(
             type: Number,
             default: 0
         },
-        characters: [characterSchema],
+        ownedAvatars: [characterSchema],
         avatar: characterSchema,
         items: [itemSchema],
         confirmationCode: {
