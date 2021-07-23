@@ -28,9 +28,15 @@ const classController = {
             });
         }
 
+        if (req.user.userType != 'Teacher') {
+            return res.status(400).send({
+                message: 'You are not authorized to create a class!'
+            });
+        }
+
         const c = new Class({
-            subject: req.body.subject
-            // teacher: req.user._id
+            subject: req.body.subject,
+            teacher: req.user._id
         });
 
         c.save()
@@ -47,6 +53,11 @@ const classController = {
     },
 
     updateClass(req, res) {
+        if (req.user.userType != 'Teacher') {
+            return res.status(400).send({
+                message: 'You are not authorized to update a class!'
+            });
+        }
         Class.findByIdAndUpdate(
             req.params.classId,
             {
@@ -60,9 +71,15 @@ const classController = {
                         message: 'Class not found with id ' + req.params.classId
                     });
                 }
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(c);
+                if (c.teacher.id.equals(req.user._id)) {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(c);
+                } else {
+                    return res.status(400).send({
+                        message: 'You are not authorized to update this class!'
+                    });
+                }
             })
             .catch((err) => {
                 if (err.kind === 'ObjectId') {
@@ -78,6 +95,11 @@ const classController = {
     },
 
     deleteClass(req, res) {
+        if (req.user.userType != 'Teacher') {
+            return res.status(400).send({
+                message: 'You are not authorized to delete a class!'
+            });
+        }
         Class.findByIdAndRemove(req.params.classId)
             .then((c) => {
                 if (!c) {
@@ -85,9 +107,15 @@ const classController = {
                         message: 'Class not found with id ' + req.params.classId
                     });
                 }
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json('Class deleted successfully!');
+                if (c.teacher.id.equals(req.user._id)) {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(c);
+                } else {
+                    return res.status(400).send({
+                        message: 'You are not authorized to delete this class!'
+                    });
+                }
             })
             .catch((err) => {
                 if (err.kind === 'ObjectId' || err.name === 'NotFound') {

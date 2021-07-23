@@ -64,15 +64,26 @@ const replyController = {
                             .id(req.params.commentId)
                             .replies.id(req.params.replyId) != null
                     ) {
-                        post.comments
+                        let reply = post.comments
                             .id(req.params.commentId)
-                            .replies.id(req.params.replyId)
-                            .remove();
-                        post.save().then((post) => {
-                            res.statusCode = 200;
-                            res.setHeader('Content-Type', 'application/json');
-                            res.json(post);
-                        });
+                            .replies.id(req.params.replyId);
+                        if (reply.author.equals(req.user._id)) {
+                            reply.remove();
+                            post.save().then((post) => {
+                                res.statusCode = 200;
+                                res.setHeader(
+                                    'Content-Type',
+                                    'application/json'
+                                );
+                                res.json(post);
+                            });
+                        } else {
+                            err = new Error(
+                                'You are not authorized to delete this reply!'
+                            );
+                            err.status = 404;
+                            return next(err);
+                        }
                     } else {
                         err = new Error(
                             'Post ' + req.params.postId + ' not found'

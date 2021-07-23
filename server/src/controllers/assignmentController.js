@@ -51,26 +51,38 @@ const assignmentController = {
     },
 
     postAssignment(req, res, next) {
+        if (req.user.userType != 'Teacher') {
+            return res.status(400).send({
+                message: 'You are not authorized to post an assignment!'
+            });
+        }
         Class.findById(req.params.classId)
             .then(
                 (c) => {
                     if (c != null) {
-                        c.assignments.push(req.body);
-                        c.save().then(
-                            (c) => {
-                                Class.findById(c._id)
-                                    .populate('assignments')
-                                    .then((c) => {
-                                        res.statusCode = 200;
-                                        res.setHeader(
-                                            'Content-Type',
-                                            'application/json'
-                                        );
-                                        res.json(c);
-                                    });
-                            },
-                            (err) => next(err)
-                        );
+                        if (c.teacher.id.equals(req.user._id)) {
+                            c.assignments.push(req.body);
+                            c.save().then(
+                                (c) => {
+                                    Class.findById(c._id)
+                                        .populate('assignments')
+                                        .then((c) => {
+                                            res.statusCode = 200;
+                                            res.setHeader(
+                                                'Content-Type',
+                                                'application/json'
+                                            );
+                                            res.json(c);
+                                        });
+                                },
+                                (err) => next(err)
+                            );
+                        } else {
+                            return res.status(400).send({
+                                message:
+                                    'You are not authorized to post an assignment to this class!'
+                            });
+                        }
                     } else {
                         err = new Error(
                             'Class ' + req.params.classId + ' not found'
@@ -85,6 +97,11 @@ const assignmentController = {
     },
 
     updateAssignment(req, res, next) {
+        if (req.user.userType != 'Teacher') {
+            return res.status(400).send({
+                message: 'You are not authorized to update an assignment!'
+            });
+        }
         Class.findById(req.params.classId)
             .then(
                 (c) => {
@@ -92,10 +109,7 @@ const assignmentController = {
                         c != null &&
                         c.assignments.id(req.params.assignmentId) != null
                     ) {
-                        if (
-                            true
-                            //   c.assignments.id(req.params.assignmentId).author.equals(req.user._id)
-                        ) {
+                        if (c.teacher.id.equals(req.user._id)) {
                             let assignment = c.assignments.id(
                                 req.params.assignmentId
                             );
@@ -131,7 +145,7 @@ const assignmentController = {
                             );
                         } else {
                             err = new Error(
-                                'You are not authorized to delete this assignment!'
+                                'You are not authorized to update this assignment!'
                             );
                             err.status = 403;
                             return next(err);
@@ -156,6 +170,11 @@ const assignmentController = {
     },
 
     deleteAssignment(req, res, next) {
+        if (req.user.userType != 'Teacher') {
+            return res.status(400).send({
+                message: 'You are not authorized to delete an assignment!'
+            });
+        }
         Class.findById(req.params.classId)
             .then(
                 (c) => {
@@ -163,10 +182,7 @@ const assignmentController = {
                         c != null &&
                         c.assignments.id(req.params.assignmentId) != null
                     ) {
-                        if (
-                            true
-                            //   c.assignments.id(req.params.assignmentId).author.equals(req.user._id)
-                        ) {
+                        if (c.teacher.id.equals(req.user._id)) {
                             c.assignments.id(req.params.assignmentId).remove();
                             c.save().then(
                                 (c) => {
