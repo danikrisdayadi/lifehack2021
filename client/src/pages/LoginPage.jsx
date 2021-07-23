@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 
 const LoginPage = () => {
     return (
-        <p>Leaderboard</p>
+        <h1>Login</h1>
     );
 };
 

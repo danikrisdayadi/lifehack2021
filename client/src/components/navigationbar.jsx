@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Link, withRouter, RouteComponentProps} from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
@@ -22,7 +23,7 @@ class NavigationBar extends Component {
       Mettis
       </Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link href="#classes">My Classes</Nav.Link>
+          <Nav.Link as={Link} to='/leaderboard'>My Classes</Nav.Link>
           <Nav.Link href="#assignments">My Assignments</Nav.Link>
           <Nav.Link href="#profile">My Profile</Nav.Link>
           <Nav.Link href="#profile">Log Out</Nav.Link>

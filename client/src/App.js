@@ -11,7 +11,9 @@ import UserProfile from './components/userprofile';
 import NavigationBar from './components/navigationbar'
 import './App.css';
 
-import LoginPage from './components/LoginPage'
+import LoginPage from './pages/LoginPage'
+import DashboardPage from './pages/DashboardPage';
+import LeaderboardPage from './pages/LeaderboardPage';
 const App = () => (
     
     <div className="App">
@@ -24,13 +26,17 @@ const App = () => (
                 <Route
                     exact
                     path="/leaderboard"
-                    component={LeaderBoard}
+                    component={LeaderboardPage}
                 />
                 <Route
                     path="/login"
                     render={() => (
                         <LoginPage />
                     )}
+                />
+                <Route
+                    path="/dashboard"
+                    component={DashboardPage}
                 />
             </Switch>
         </Container>
