@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import {Link } from 'react-router-dom';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import Container from 'react-bootstrap/Container';
+import { Navbar, Nav, Container} from 'react-bootstrap';
 import Logo from '../assets/logo-white.svg'; 
 class NavigationBar extends Component {
   render() {
