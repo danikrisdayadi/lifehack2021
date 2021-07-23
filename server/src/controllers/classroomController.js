@@ -34,14 +34,30 @@ const classroomController = {
             });
         }
 
-        const c = new Classroom({
-            subject: req.body.subject,
-            teacher: req.user._id
-        });
+        const c = new Classroom(req.body);
 
         c.save()
             .then((data) => {
-                res.send(data);
+                const toUpdate = c.students.push(teacher);
+
+                Users.updateMany(
+                    { _id: { $in: toUpdate } },
+                    {
+                        $addToSet: {
+                            classrooms: Types.ObjectId(req.params.classId)
+                        }
+                    }
+                )
+                    .then(() => {
+                        res.send(data);
+                    })
+                    .catch((err) => {
+                        res.status(500).send({
+                            message:
+                                err.message ||
+                                'Some error occurred while creating the Class.'
+                        });
+                    });
             })
             .catch((err) => {
                 res.status(500).send({
