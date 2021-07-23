@@ -99,7 +99,7 @@ const LeaderBoard = ({ ...props }) => {
                         </Col>
                     <Col>
                         <Button>Give {' '}
-                            <img src={Coin} width="20px"/>
+                            <img src={Coin} width="20px" alt="coin"/>
                         </Button>
                     </Col>
                     </Row>
