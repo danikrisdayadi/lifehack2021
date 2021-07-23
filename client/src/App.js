@@ -15,6 +15,7 @@ import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import Classes from './components/classes';
+import ClassroomPage from './pages/ClassroomPage';
 import Assignments from './components/assignments';
 import HomePage from './pages/HomePage'
 const App = () => (
@@ -55,6 +56,15 @@ const App = () => (
                     path="/assignments"
                     exact
                     component={Assignments}
+                />
+                <Route
+                    path="/class/:queryId"
+                    exact
+                    render={(props) => (
+                        <ClassroomPage
+                            key={props.match.params.queryId}
+                        />
+                    )}
                 />
                 <Route
                     path="/home"
