@@ -18,19 +18,44 @@ const Style = styled.div`
     }
 ` 
 const ClassroomPage = (props) => {
-    const assignmentList = 
-        <Row style={{marginLeft: 0}}>
+
+    const assignmentArray = [
+        {
+            title: "Homework",
+            status: "Completed",
+            dueDate: "Friday 20 August 2021"
+        },
+        {
+            title: "Homework2",
+            status: "Incomplete",
+            dueDate: "Friday 27 August 2021"
+        },
+        {
+            title: "Week 3 Quiz",
+            status: "Completed",
+            dueDate: "Saturday 4 September 2021"
+        }
+    ]
+    const assignmentList = (details) => {
+        return (
+            <Row style={{marginLeft: 0}}>
             <Col className="align-self-center">
                 <Row >
-                    <p>Assignment 1 <span class="badge bg-success" style={{color: "white"}}>Completed</span></p>
+                    <p>{details.title} {details.status === "Completed" ? 
+                        <span className="badge bg-success" style={{color: "white"}}>Completed</span> : 
+                        <span className="badge bg-danger" style={{color: "white"}}>Incomplete</span>}
+                    </p>
                 </Row>
             </Col>
             <Col className="align-self-center">
                 <Row className="justify-content-end">
-                    <p>Friday 20 August 2021</p>
+                    <p>{details.dueDate}</p>
                 </Row>
             </Col>
         </Row>
+        )
+    } 
+        
     
     return (
         <Container>
@@ -53,11 +78,9 @@ const ClassroomPage = (props) => {
                 <h3>Assignments Due</h3>
                 <div className="w-100"></div>
                 <ListGroup style={{width: "100%"}}>
-                    <ListGroup.Item>{assignmentList}</ListGroup.Item>
-                    <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                    <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-                    <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-                    <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+                    <ListGroup.Item>{assignmentList(assignmentArray[0])}</ListGroup.Item>
+                    <ListGroup.Item>{assignmentList(assignmentArray[1])}</ListGroup.Item>
+                    <ListGroup.Item>{assignmentList(assignmentArray[2])}</ListGroup.Item>
                 </ListGroup>
             </Row>
             <Row style={{margin: 0}}>
