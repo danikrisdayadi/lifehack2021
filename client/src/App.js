@@ -16,6 +16,7 @@ import DashboardPage from './pages/DashboardPage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import Classes from './components/classes';
 import Assignments from './components/assignments';
+import HomePage from './pages/HomePage'
 const App = () => (
     
     <div className="App">
@@ -54,6 +55,11 @@ const App = () => (
                     path="/assignments"
                     exact
                     component={Assignments}
+                />
+                <Route
+                    path="/home"
+                    exact
+                    component={HomePage}
                 />
                 <Route
                     path="/profile/:queryId"
