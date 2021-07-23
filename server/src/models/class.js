@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const assignmentSchema = require('./assignment');
 
 const classSchema = new Schema(
     {
@@ -17,12 +18,7 @@ const classSchema = new Schema(
                 ref: 'User'
             }
         ],
-        assignments: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Assignment'
-            }
-        ]
+        assignments: [assignmentSchema]
     },
     {
         timestamps: true
