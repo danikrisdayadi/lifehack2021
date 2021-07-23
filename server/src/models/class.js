@@ -1,6 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-export const classSchema = new Schema(
+const classSchema = new Schema(
     {
         subject: {
             type: String,
@@ -28,4 +29,5 @@ export const classSchema = new Schema(
     }
 );
 
-export const Classes = mongoose.model < ClassDocument > ('Class', classSchema);
+const Class = mongoose.model('Class', classSchema);
+module.exports = Class;

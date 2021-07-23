@@ -1,20 +1,21 @@
-import { Types, Document, Schema } from 'mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-export const replySchema = new Schema(
+const replySchema = new Schema(
     {
         content: {
             type: String,
             required: true
-        },
-        author: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
         }
+        // author: {
+        //     type: Schema.Types.ObjectId,
+        //     ref: 'User',
+        //     required: true
+        // }
     },
     {
         timestamps: true
     }
 );
 
-export const Replies = mongoose.model < ReplyDocument > ('Reply', replySchema);
+module.exports = replySchema;

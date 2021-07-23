@@ -1,21 +1,18 @@
-import { Document, Types, Schema } from 'mongoose';
-import { replySchema } from './reply';
+const mongoose = require('mongoose');
+const replySchema = require('./reply');
+const Schema = mongoose.Schema;
 
-export const commentSchema = new Schema(
+const commentSchema = new Schema(
     {
         content: {
             type: String,
             required: true
         },
-        author: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
-        noOfReplies: {
-            type: Number,
-            default: 0
-        },
+        // author: {
+        //     type: Schema.Types.ObjectId,
+        //     ref: 'User',
+        //     required: true
+        // },
         replies: [replySchema]
     },
     {
@@ -23,5 +20,4 @@ export const commentSchema = new Schema(
     }
 );
 
-export const Comments =
-    mongoose.model < CommentDocument > ('Comment', commentSchema);
+module.exports = commentSchema;
