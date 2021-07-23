@@ -1,6 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
 import passportLocalMongoose from 'passport-local-mongoose';
 
+import { itemSchema } from './item';
+import { characterSchema } from './character';
+
 export const userSchema = new Schema(
     {
         firstName: {
@@ -18,7 +21,6 @@ export const userSchema = new Schema(
         socialPicture: {
             type: String
         },
-        resumes: [resumeSchema],
         username: {
             type: String,
             required: true,
@@ -29,105 +31,45 @@ export const userSchema = new Schema(
             required: true,
             unique: true
         },
-        city: {
-            type: String,
-            default: ''
-        },
-        country: {
-            type: String,
-            default: ''
-        },
-        interestAreas: {
-            type: [String],
-            enum: interestArea,
-            validate: (v) => Array.isArray(v) && v.length >= 0
-        },
-        sustainabilityInvolvement: {
-            type: [String],
-            enum: involvement,
-            validate: (j) => Array.isArray(j) && j.length >= 0
-        },
-        currentRole: {
-            type: String,
-            default: ''
-        },
-        organisationName: {
-            type: String,
-            default: ''
-        },
-        lookingFor: {
-            type: [String],
-            enum: lookingfor,
-            validate: (k: any) => Array.isArray(k) && k.length >= 0
-        },
-        aboutMyself: {
-            type: String,
-            default: ''
-        },
-        skillsets: {
-            type: [String],
-            enum: skills,
-            validate: (k: any) => Array.isArray(k) && k.length >= 0
-        },
-        linkedin: {
-            type: String
-        },
-        website: {
-            type: String
-        },
-        following: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'User'
-            }
-        ],
-        followers: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'User'
-            }
-        ],
-        followingOrgs: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Organisation'
-            }
-        ],
-        additionalInfo: {
-            type: String
-        },
         userType: {
-            type: [String],
-            enum: user,
-            default: ['Community']
-        },
-        organisation: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Organisation'
-            }
-        ],
-        landscapes: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Landscape'
-            }
-        ],
-        opportunities: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Opportunity'
-            }
-        ],
-        admin: {
-            type: Boolean,
-            default: false
-        },
-        status: {
             type: String,
-            enum: ['Pending', 'Email Confirmed', 'Active'],
-            default: 'Pending'
+            enum: ['Student', 'Teacher'],
+            default: 'Student'
         },
+        posts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Post'
+            }
+        ],
+        classes: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Class'
+            }
+        ],
+        assignmens: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Assignment'
+            }
+        ],
+        coins: {
+            type: Number, 
+            default: 0
+        },
+        xp: {
+            type: Number, 
+            default: 0  
+        },
+        level: {
+            type: Number, 
+            default: 0  
+        },
+        characters: [characterSchema],
+        items: [
+            itemSchema
+        ],
         confirmationCode: {
             type: String,
             unique: true
@@ -145,4 +87,4 @@ export const userSchema = new Schema(
 
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
 
-export const Users = mongoose.model < UserDocument > ('User', userSchema);
+export const Users = mongoose.model('User', userSchema);
