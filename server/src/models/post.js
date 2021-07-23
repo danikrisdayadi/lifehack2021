@@ -1,4 +1,4 @@
-import mongoose, { Types, Schema, Model, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { commentSchema } from './comment';
 
 export const postSchema = new Schema(

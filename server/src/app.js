@@ -1,13 +1,14 @@
 // Import middlewares
-import express from 'express';
-import logger from 'morgan';
-import mongoose from 'mongoose';
-import path from 'path';
-import dotenv from 'dotenv';
+const express = require('express');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const path = require('path');
+const dotenv = require('dotenv');
+const http = require('http');
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 // Import routes
-import userRouter from './routes/userRouter';
+const router = require('./routes/assignmentRouter');
 
 const app = express();
 
@@ -32,7 +33,7 @@ const url = process.env.MONGO_URI;
 const port = process.env.PORT || 5000;
 
 // Declare routes
-app.use('/api/users', userRouter);
+app.use('/api/assignments', router);
 
 // Configure mongoose to avoid deprecation warnings
 mongoose.set('useNewUrlParser', true);
@@ -68,6 +69,7 @@ if (process.env.IS_DEPLOYMENT == 'true') {
         .catch((err) => console.log(err));
 }
 
+console.log(url);
 const server = http.createServer(app);
 
 //Start the server
@@ -77,4 +79,4 @@ server.listen(port, () => {
 
 //Export app for testing
 module.exports = server;
-export default app;
+// export default app;

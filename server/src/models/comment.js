@@ -1,4 +1,4 @@
-import { Document, Types, Schema } from 'mongoose';
+import { Schema } from 'mongoose';
 import { replySchema } from './reply';
 
 export const commentSchema = new Schema(
@@ -22,6 +22,3 @@ export const commentSchema = new Schema(
         timestamps: true
     }
 );
-
-export const Comments =
-    mongoose.model < CommentDocument > ('Comment', commentSchema);

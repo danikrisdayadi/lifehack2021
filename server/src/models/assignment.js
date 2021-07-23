@@ -1,6 +1,8 @@
-import mongoose, { Schema } from 'mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const questionSchema = require('questionSchema');
 
-export const assignmentSchema = new Schema(
+const assignmentSchema = new mongoose.Schema(
     {
         title: {
             type: String,
@@ -14,17 +16,17 @@ export const assignmentSchema = new Schema(
             type: Date,
             required: true
         },
-        questions: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Question'
-            }
-        ]
+        status: {
+            type: String,
+            enum: ['To be completed', 'Completed', 'Expired'],
+            default: 'To be completed'
+        },
+        questions: [questionSchema]
     },
     {
         timestamps: true
     }
 );
 
-export const Assignments =
-    mongoose.model < AssignmentDocument > ('Assignment', assignmentSchema);
+const Assignment = mongoose.model('Assignment', assignmentSchema);
+module.exports = Assignment;

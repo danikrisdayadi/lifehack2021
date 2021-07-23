@@ -1,6 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-export const questionSchema = new Schema(
+const questionSchema = new Schema(
     {
         content: {
             type: String
@@ -19,5 +20,4 @@ export const questionSchema = new Schema(
     }
 );
 
-export const Questions =
-    mongoose.model < QuestionDocument > ('Question', questionSchema);
+module.exports = questionSchema;

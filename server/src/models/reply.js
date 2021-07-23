@@ -1,4 +1,4 @@
-import { Types, Document, Schema } from 'mongoose';
+import { Schema } from 'mongoose';
 
 export const replySchema = new Schema(
     {
