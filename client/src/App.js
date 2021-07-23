@@ -5,8 +5,9 @@ import Toast from 'react-bootstrap/Toast';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
-import LeaderBoard from './components/leaderboard'
+import LeaderBoard from './components/leaderboard';
 import Assignment from './components/assignment';
+import UserProfile from './components/userprofile';
 
 import './App.css';
 
@@ -56,6 +57,7 @@ const App = () => (
             </Jumbotron>
             <LeaderBoard></LeaderBoard> */}
             <Assignment></Assignment>
+            <UserProfile></UserProfile>
         </Container>
     </div>
 );

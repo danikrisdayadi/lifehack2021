@@ -3,7 +3,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 
-class QuizQuestion extends React.Component {
+class Assignment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,4 +36,4 @@ class QuizQuestion extends React.Component {
     }
 };
 
-export default QuizQuestion;
+export default Assignment;
