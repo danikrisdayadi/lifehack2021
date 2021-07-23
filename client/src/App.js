@@ -18,6 +18,7 @@ import AssignmentCover from './components/assignmentCover';
 import Question from './components/question';
 import ShopPage from './pages/ShopPage';
 import ForumPage from './pages/ForumPage';
+import ProfilePage from './pages/ProfilePage';
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
