@@ -3,7 +3,8 @@ import { Card, Image, ProgressBar, Button, Container, Col, Row } from 'react-boo
 import DogProfile from '../assets/hurt.png';
 import styled from 'styled-components';
 import Coin from '../assets/coin.svg'
-const LeaderBoard = ({ ...props }) => {
+
+const Leaderboard = () => {
     const gradient = ["#001219", "#005f73", "#0a9396", "#94d2bd", "#e9d8a6", "#ee9b00", "#ca6702", "#bb3e03", "#ae2012", "#9b2226"];
 
     const Style = styled.div`
@@ -110,16 +111,11 @@ const LeaderBoard = ({ ...props }) => {
     });
 
     return (
-        <Container>
-            <div id="leaderboard-title" style={{ textAlign: 'left' }}>
-                <h2>Subject: Mathematics LeaderBoard</h2>
-                <p>Level: Secondary 1</p>
-            </div>
-            <div className="container">
-                <div>{leaderboard}</div>
-            </div>
-        </Container>
-    );
-};
+        <Style>
+            {leaderboard}
+        </Style>
+    )
+}
 
-export default LeaderBoard;
+
+export default Leaderboard;
