@@ -1,11 +1,12 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col, Image, Button } from "react-bootstrap";
 import UserProfile from "../components/userprofile";
 import styled from "styled-components";
 
 const Style = styled.div`
     text-align: left;
+
 `
 const ProfilePage = () => {
     return (
@@ -18,6 +19,10 @@ const ProfilePage = () => {
                 <br />
                 <br />
                 <h3>Owned Avatars</h3>
+                <Row lg={6}>
+                    <img src={`${process.env.PUBLIC_URL}/avatars/hurt.png`} alt="avatar" />
+                    <Button>Select</Button>
+                </Row>
             </Container>
         </Style>
     );

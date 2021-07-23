@@ -1,6 +1,5 @@
 import React from "react";
 import {ProgressBar, Image, Card, Col, Row} from "react-bootstrap";
-import DogProfile from '../assets/hurt.png';
 import Coin from '../assets/coin.svg'
 import styled from "styled-components";
 import { gradient } from "../utils/colours";
@@ -81,7 +80,7 @@ const UserProfile = () => {
               <Row className="align-items-center">
                   <Col lg="auto" classname="justify-content-center">
                       <Row>
-                        <Image src={DogProfile} />
+                        <Image src={`${process.env.PUBLIC_URL}/avatars/hurt.png`} />
                       </Row>
                       <br></br>
                       <Row className="justify-content-center">

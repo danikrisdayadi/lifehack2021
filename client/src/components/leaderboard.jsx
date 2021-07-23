@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Card, Image, ProgressBar, Button, Container, Col, Row } from 'react-bootstrap';
-import DogProfile from '../assets/hurt.png';
 import styled from 'styled-components';
 import Coin from '../assets/coin.svg'
 import {gradient} from '../utils/colours';
@@ -35,6 +34,7 @@ const Leaderboard = () => {
             background-color: ${gradient[8]};
         }
     `
+    const DogProfile = `${process.env.PUBLIC_URL}/avatars/hurt.png`
     const students = [
         {
             name: 'Ayam 0',
