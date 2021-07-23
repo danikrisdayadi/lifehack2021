@@ -17,6 +17,7 @@ class NavigationBar extends Component {
           />
         </Navbar.Brand>
           <Nav>
+            <Nav.Link as={Link} to='/home'>Home</Nav.Link>
             <Nav.Link as={Link} to='/classes'>My Classes</Nav.Link>
             <Nav.Link as={Link} to='/assignments'>My Assignments</Nav.Link>
             <Nav.Link as={Link} to='/profile'>My Profile</Nav.Link>
