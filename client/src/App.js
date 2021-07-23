@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import UserProfile from './components/userprofile';
-import NavigationBar from './components/navigationbar'
+import NavigationBar from './components/navigationbar';
 import './App.css';
 
 // Import Pages
@@ -14,24 +14,34 @@ import ClassroomPage from './pages/ClassroomPage';
 import Assignments from './components/assignments';
 import HomePage from './pages/HomePage'
 import ProfilePage from './pages/ProfilePage';
+import AssignmentCover from './components/assignmentCover';
+import Question from './components/question';
+import ShopPage from './pages/ShopPage';
 
 const App = () => (
     <div className="App">
         <NavigationBar></NavigationBar>
-        <Container fluid style={{paddingLeft: 160, paddingRight: 160, height: "100%"}}>
+        <Container
+            fluid
+            style={{ paddingLeft: 160, paddingRight: 160, height: '100%' }}
+        >
             <Switch>
                 <Route exact path="/">
                     <Redirect to="login" />
                 </Route>
+                <Route exact path="/leaderboard" component={LeaderboardPage} />
+                <Route path="/login" render={() => <LoginPage />} />
+                <Route path="/dashboard" component={DashboardPage} />
+                <Route path="/classes" exact component={Classes} />
+                <Route path="/assignments" exact component={Assignments} />
                 <Route
+                    path="/assignment/:queryId"
                     exact
-                    path="/leaderboard"
-                    component={LeaderboardPage}
-                />
-                <Route
-                    path="/login"
-                    render={() => (
-                        <LoginPage />
+                    render={(props) => (
+                        <AssignmentCover
+                            key={props.match.params.queryId}
+                            history={props.history}
+                        />
                     )}
                 />
                 <Route
@@ -54,25 +64,27 @@ const App = () => (
                     component={Assignments}
                 />
                 <Route
-                    path="/class/:queryId"
+                    path="/assignment/:queryId/question/:queryId"
                     exact
                     render={(props) => (
-                        <ClassroomPage
+                        <Question
                             key={props.match.params.queryId}
                         />
                     )}
                 />
                 <Route
-                    path="/home"
+                    path="/class/:queryId"
                     exact
-                    component={HomePage}
+                    render={(props) => (
+                        <ClassroomPage key={props.match.params.queryId} />
+                    )}
                 />
+                <Route path="/home" exact component={HomePage} />
+                <Route path="/shop" exact component={ShopPage} />
                 <Route
                     path="/profile/:queryId"
                     render={(props) => (
-                        <UserProfile
-                            key={props.match.params.queryId}
-                        />
+                        <ProfilePage key={props.match.params.queryId} />
                     )}
                 />
             </Switch>

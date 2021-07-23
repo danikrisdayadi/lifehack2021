@@ -1,52 +1,61 @@
-import React, { useState } from 'react';
-import { withRouter } from "react-router-dom";
-import {Container, Button, Card, Row, Col} from "react-bootstrap";
-import UserProfile from "../components/userprofile";
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Container, Button, Card, CardGroup, Row, Col } from 'react-bootstrap';
+import UserProfile from '../components/userprofile';
+import { Link } from 'react-router-dom';
+import { propTypes } from 'react-bootstrap/esm/Image';
 import { gradient, homeGradient } from '../utils/colours';
 
-const HomePage = ({...props}) => {
+const HomePage = ({ ...props }) => {
     const [classes, setClasses] = useState([
         {
             teacher: 'Ms Winy',
-            student: [1,2,3],
-            subject: "Physics",
-            assignment: [1,2,3,4]
+            student: [1, 2, 3],
+            subject: 'Physics',
+            assignment: [1, 2, 3, 4]
         },
         {
             teacher: 'Ms Fris',
-            student: [1,2,3],
-            subject: "Mathematics",
-            assignment: [1,2,3,4]
+            student: [1, 2, 3],
+            subject: 'Mathematics',
+            assignment: [1, 2, 3, 4]
         },
         {
             teacher: 'Mr Dani',
-            student: [1,2,3,4,5,6,7,8],
-            subject: "Chemistry",
-            assignment: [1,2,3,4]
+            student: [1, 2, 3, 4, 5, 6, 7, 8],
+            subject: 'Chemistry',
+            assignment: [1, 2, 3, 4]
         },
         {
             teacher: 'Ms Melissa',
-            student: [1,2,3,4,5,6,7,8],
-            subject: "Economics",
-            assignment: [1,2,3,4]
-        },
+            student: [1, 2, 3, 4, 5, 6, 7, 8],
+            subject: 'Economics',
+            assignment: [1, 2, 3, 4]
+        }
     ]);
     function onClickCard(queryId) {
-        props.history.push("/class/" + queryId)
+        props.history.push('/class/' + queryId);
     }
-    
+
     let idx = 0;
     const classCard = classes.map((c) => {
-        idx+=1;
+        idx += 1;
         return (
             <Col>
-                <Card style={{ backgroundColor: `${homeGradient[Math.floor(idx % 6)]}`, textAlign: "left", marginBottom: 30}} key={c.teacher} text="white" onClick={() => onClickCard(c.subject.toLowerCase())}>
+                <Card
+                    style={{
+                        backgroundColor: `${homeGradient[Math.floor(idx % 6)]}`,
+                        textAlign: 'left',
+                        marginBottom: 30
+                    }}
+                    key={c.teacher}
+                    text="white"
+                    onClick={() => onClickCard(c.subject.toLowerCase())}
+                >
                     <Card.Body>
                         <h3>{c.subject}</h3>
-                    <Card.Text>
-                        {c.student.length} students
-                    </Card.Text>
-                        <p style={{textAlign: "right"}}>{c.teacher}</p>
+                        <Card.Text>{c.student.length} students</Card.Text>
+                        <p style={{ textAlign: 'right' }}>{c.teacher}</p>
                     </Card.Body>
                 </Card>
             </Col>
