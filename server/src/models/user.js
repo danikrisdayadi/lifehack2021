@@ -48,7 +48,7 @@ export const userSchema = new Schema(
                 ref: 'Class'
             }
         ],
-        assignmens: [
+        assignments: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Assignment'
@@ -78,7 +78,11 @@ export const userSchema = new Schema(
             type: String,
             enum: ['local', 'google', 'linkedin'],
             default: 'local'
-        }
+        },
+        admin: {
+            type: Boolean,
+            default: false
+        },
     },
     {
         timestamps: true
