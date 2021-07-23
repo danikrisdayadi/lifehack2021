@@ -1,30 +1,101 @@
-import React, { Component } from "react";
-import ProgressBar from "react-bootstrap/ProgressBar";
-import Image from "react-bootstrap/Image"
-import Card from "react-bootstrap/Card"
-class UserProfile extends Component {
-  state = {
+import React from "react";
+import {ProgressBar, Image, Card, Col, Row} from "react-bootstrap";
+import Coin from '../assets/coin.svg'
+import styled from "styled-components";
+import { gradient } from "../utils/colours";
 
-  };
-  render() {
+const UserProfile = () => {
+    const student = [
+        {
+          name: "Mathematics",
+          level: 12,
+          currentXP: 15,
+          maxXP: 200
+        },
+        {
+          name: "Physics",
+          level: 25,
+          currentXP: 140,
+          maxXP: 200
+        },
+        {
+          name: "Economics",
+          level: 45,
+          currentXP: 500,
+          maxXP: 790
+        }
+        ,
+        {
+          name: "Chemistry",
+          level: 80,
+          currentXP: 1234,
+          maxXP: 2500
+        }
+      ];
+
+    const Style = styled.div`
+        .bg-progress0 {
+            background-color: ${gradient[0]};
+        }
+        .bg-progress1 {
+            background-color: ${gradient[1]};
+        }
+        .bg-progress2 {
+            background-color: ${gradient[2]};
+        }
+        .bg-progress3 {
+            background-color: ${gradient[3]};
+        }
+        .bg-progress4 {
+            background-color: ${gradient[4]};
+        }
+        .bg-progress5 {
+            background-color: ${gradient[5]};
+        }
+        .bg-progress6 {
+            background-color: ${gradient[6]};
+        }
+        .bg-progress7 {
+            background-color: ${gradient[7]};
+        }
+        .bg-progress8 {
+            background-color: ${gradient[8]};
+        }
+    `
+
+    const userSummary = student.map((c) => {
+      return (
+        <div>
+          <p>Lv. {c.level} {c.name}
+          <ProgressBar now={c.currentXP / c.maxXP * 100} variant={"progress" + Math.floor(c.level / 10)}/></p>
+        </div>
+        
+      )
+    });
+
     return (
+      <Style>
         <Card >
-            <div className="card-body">
-            <div id="profile" style={{width: '30%', float:"left"}}>
-                <Image src="https://www.gravatar.com/avatar" roundedCircle />
-                <Card.Title>Melissa</Card.Title>
-            </div>
-              <div id="progressBar" style={{width: '70%', float:"right"}}>
-                <p>Lvl {/*TODO*/}2 Mathematics
-                <ProgressBar now="80" visuallyHidden variant="success" /></p>
-                <p>Lvl {/*TODO*/}1 Physics
-                <ProgressBar now="60" visuallyHidden variant="info" /></p>
-                <p>Lvl {/*TODO*/}3 Chemistry
-                <ProgressBar now="90" visuallyHidden variant="warning"/></p>
-              </div>
-            </div>
+            <Card.Body>
+              <Row className="align-items-center">
+                  <Col lg="auto" classname="justify-content-center">
+                      <Row>
+                        <Image src={`${process.env.PUBLIC_URL}/avatars/dog.png`} />
+                      </Row>
+                      <br></br>
+                      <Row className="justify-content-center">
+                        <h3 style={{marginBottom: 0}}>300{' '}</h3>
+                        <Image src={Coin} width="25px" style={{marginLeft: 5}}/>
+                      </Row>
+                  </Col>
+                  <Col style={{textAlign: "left"}}>
+                    {userSummary}
+                  </Col>
+                </Row>
+            </Card.Body>
         </Card>
-    )}
+      </Style>
+    )
 };
 
 

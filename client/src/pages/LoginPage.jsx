@@ -57,15 +57,6 @@ const LoginPage = () => {
                     <br />
                     <Row className="justify-content-center">
                         <Google />
-                        {/* <Button variant="dark">
-                            <Image
-                                src={GoogleLogo}
-                                alt="google-login"
-                                height={25}
-                                width={20}
-                            />{' '}
-                            Sign in with Google
-                        </Button> */}
                     </Row>
                 </Col>
             </Row>

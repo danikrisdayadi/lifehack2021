@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
-import UserProfile from './components/userprofile';
 import NavigationBar from './components/navigationbar';
 import './App.css';
 
@@ -12,10 +11,14 @@ import jwtDecode from 'jwt-decode';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import LeaderboardPage from './pages/LeaderboardPage';
+import HomePage from './pages/HomePage';
 import Classrooms from './components/classrooms';
 import Assignments from './components/assignments';
 import ClassroomPage from './pages/ClassroomPage';
-import HomePage from './pages/HomePage';
+import ProfilePage from './pages/ProfilePage';
+import AssignmentCover from './components/assignmentCover';
+import Question from './components/question';
+import ShopPage from './pages/ShopPage';
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -52,11 +55,11 @@ const App = () => (
     <div className="App">
         <Provider store={store}>
             <NavigationBar />
-            <Container fluid style={{ paddingLeft: 160, paddingRight: 160 }}>
+            <Container
+                fluid
+                style={{ paddingLeft: 160, paddingRight: 160, height: '100%' }}
+            >
                 <Switch>
-                    <Route exact path="/">
-                        <Redirect to="login" />
-                    </Route>
                     <Route
                         exact
                         path="/leaderboard"
@@ -64,9 +67,27 @@ const App = () => (
                     />
                     <Route path="/login" render={() => <LoginPage />} />
                     <Route path="/dashboard" component={DashboardPage} />
-                    <Route path="/profile" exact component={UserProfile} />
                     <Route path="/classes" exact component={Classrooms} />
                     <Route path="/assignments" exact component={Assignments} />
+                    <Route
+                        path="/assignment/:queryId"
+                        exact
+                        render={(props) => (
+                            <AssignmentCover
+                                key={props.match.params.queryId}
+                                history={props.history}
+                            />
+                        )}
+                    />
+
+                    <Route path="/profile" exact component={ProfilePage} />
+                    <Route
+                        path="/assignment/:queryId/question/:queryId"
+                        exact
+                        render={(props) => (
+                            <Question key={props.match.params.queryId} />
+                        )}
+                    />
                     <Route
                         path="/class/:queryId"
                         exact
@@ -75,10 +96,11 @@ const App = () => (
                         )}
                     />
                     <Route path="/home" exact component={HomePage} />
+                    <Route path="/shop" exact component={ShopPage} />
                     <Route
                         path="/profile/:queryId"
                         render={(props) => (
-                            <UserProfile key={props.match.params.queryId} />
+                            <ProfilePage key={props.match.params.queryId} />
                         )}
                     />
                 </Switch>

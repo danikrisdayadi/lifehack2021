@@ -2,7 +2,6 @@ import React from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from 'styled-components';
 import {Row, Col, Container, Button, ListGroup} from 'react-bootstrap';
-import DogProfile from '../assets/hurt.png';
 import Leaderboard from "../components/leaderboard";
 
 const Style = styled.div`
@@ -69,7 +68,7 @@ const ClassroomPage = (props) => {
                 <h3>Your Profile</h3>
                 <div className="w-100"></div>
                 <Col style={{paddingLeft: 0}} lg="auto">
-                    <img src={DogProfile} alt="profile" className="image"/>
+                    <img src={`${process.env.PUBLIC_URL}/avatars/dog.png`} alt="profile" className="image"/>
                 </Col>
                 <Col>
                     <Row><p>Leaderboard Position: 24th (top 70%)</p></Row>
