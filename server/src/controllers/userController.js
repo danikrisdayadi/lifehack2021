@@ -335,3 +335,28 @@ exports.putUser = (req, res, next) => {
             res.send(err);
         });
 };
+
+exports.getAssignments = (req, res, next) => {
+    Users.findOne({
+        username: req.params.username
+    })
+        .then((user) => {
+            if (user.assignments.id(req.params.assignmentId) != null) {
+                let assignment = user.assignments.id(req.params.assignmentId);
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(assignment);
+            } else {
+                let err = new Error(
+                    'Assignment ' + req.params.assignmentId + ' not found!'
+                );
+                res.statusCode = 404;
+                return next(err);
+            }
+        })
+        .catch((err) => {
+            res.statusCode = 500;
+            res.send(err);
+            console.log(err);
+        });
+};
