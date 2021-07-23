@@ -1,6 +1,6 @@
-import https from 'https';
-import path from 'path';
-import dotenv from 'dotenv';
+const https = require('https');
+const path = require('path');
+const dotenv = require('dotenv');
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const providers = {
