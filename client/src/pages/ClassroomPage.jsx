@@ -3,6 +3,7 @@ import { withRouter, Link } from "react-router-dom";
 import styled from 'styled-components';
 import {Row, Col, Container, Button, ListGroup} from 'react-bootstrap';
 import DogProfile from '../assets/hurt.png';
+import Leaderboard from "../components/leaderboard";
 
 const Style = styled.div`
     text-align: left;
@@ -88,11 +89,11 @@ const ClassroomPage = (props) => {
             </Row>
             <br />
             <Row style={{margin: 0}}>
-                <h3>Leaderboard</h3>
-                <div className="w-100"></div>
-                <Button variant="primary" as={Link} to="/leaderboard">Full Leaderboard</Button>
+                <h3 ><a href="/leaderboard">Leaderboard</a></h3>
             </Row>
+
         </Style>
+            <Leaderboard/>
         </Container>
     );
 };
