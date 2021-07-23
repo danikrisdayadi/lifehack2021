@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import styled from 'styled-components';
 import {Row, Col, Container, Button, ListGroup} from 'react-bootstrap';
 import DogProfile from '../assets/hurt.png';
@@ -62,6 +62,8 @@ const ClassroomPage = (props) => {
         <Style>
             <h1>{(props.match.params.queryId).charAt(0).toUpperCase() + (props.match.params.queryId).slice(1)}</h1>
             <p>Secondary 3</p>
+            <br />
+            
             <Row style={{marginLeft: 0, marginBottom: 20}}>
                 <h3>Your Profile</h3>
                 <div className="w-100"></div>
@@ -74,6 +76,7 @@ const ClassroomPage = (props) => {
                     <Row><p>Assignments remaining: 3</p></Row>
                 </Col>
             </Row>
+            <br />
             <Row style={{marginLeft: 0, marginBottom: 20}}>
                 <h3>Assignments Due</h3>
                 <div className="w-100"></div>
@@ -83,8 +86,11 @@ const ClassroomPage = (props) => {
                     <ListGroup.Item>{assignmentList(assignmentArray[2])}</ListGroup.Item>
                 </ListGroup>
             </Row>
+            <br />
             <Row style={{margin: 0}}>
                 <h3>Leaderboard</h3>
+                <div className="w-100"></div>
+                <Button variant="primary" as={Link} to="/leaderboard">Full Leaderboard</Button>
             </Row>
         </Style>
         </Container>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Image, ProgressBar, Button } from 'react-bootstrap';
+import DogProfile from '../assets/hurt.png';
 
 const LeaderBoard = ({ ...props }) => {
     const [students, setStudents] = useState([
@@ -37,8 +38,8 @@ const LeaderBoard = ({ ...props }) => {
                             #{rank}
                         </h1>
                         <Image
-                            src="https://www.gravatar.com/avatar"
-                            roundedCircle
+                            src={DogProfile}
+                            width="100px"
                         />
                     </div>
                     <div
