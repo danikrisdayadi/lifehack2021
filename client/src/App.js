@@ -1,12 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Jumbotron from 'react-bootstrap/Jumbotron';
-import Toast from 'react-bootstrap/Toast';
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
-import LeaderBoard from './components/leaderboard';
-import Assignment from './components/assignment';
 import UserProfile from './components/userprofile';
 import NavigationBar from './components/navigationbar';
 import './App.css';
@@ -22,7 +16,10 @@ import ShopPage from './pages/ShopPage';
 const App = () => (
     <div className="App">
         <NavigationBar></NavigationBar>
-        <Container fluid style={{ paddingLeft: 160, paddingRight: 160 }}>
+        <Container
+            fluid
+            style={{ paddingLeft: 160, paddingRight: 160, height: '100%' }}
+        >
             <Switch>
                 <Route exact path="/">
                     <Redirect to="login" />
