@@ -1,6 +1,7 @@
 const express = require('express');
 // const cors = require('cors');
 // const corsOptionsDelegate = require('../../node_modules/cors');
+const authenticate = require('../utils/config/passport');
 
 const assignmentRouter = express.Router();
 assignmentRouter.use(express.json());
@@ -10,22 +11,22 @@ const questionController = require('../controllers/questionController');
 
 assignmentRouter
     .route('/')
-    .get(assignmentController.getAllAssignments)
-    .post(assignmentController.postAssignment);
+    .get(authenticate.verifyUser, assignmentController.getAllAssignments)
+    .post(authenticate.verifyUser, assignmentController.postAssignment);
 
 assignmentRouter
     .route('/:assignmentId')
-    .get(assignmentController.getAssignment)
-    .put(assignmentController.updateAssignment)
-    .delete(assignmentController.deleteAssignment);
+    .get(authenticate.verifyUser, assignmentController.getAssignment)
+    .put(authenticate.verifyUser, assignmentController.updateAssignment)
+    .delete(authenticate.verifyUser, assignmentController.deleteAssignment);
 
 assignmentRouter
     .route('/:assignmentId/questions')
-    .post(questionController.postQuestion);
+    .post(authenticate.verifyUser, questionController.postQuestion);
 
 assignmentRouter
     .route('/:assignmentId/questions/:questionId')
-    .put(questionController.updateQuestion)
-    .delete(questionController.deleteQuestion);
+    .put(authenticate.verifyUser, questionController.updateQuestion)
+    .delete(authenticate.verifyUser, questionController.deleteQuestion);
 
 module.exports = assignmentRouter;

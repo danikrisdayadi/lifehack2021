@@ -46,6 +46,7 @@ exports.registerUser = (req, res, next) => {
                     req.body.password,
                     (err, user) => {
                         if (err) {
+                            console.log(err);
                             res.statusCode = 400;
                             res.setHeader('Content-Type', 'application/json');
                             res.json({
@@ -197,6 +198,7 @@ exports.socialLoginUser = (req, res, next) => {
                                     authenticate.getToken(userToken),
                                 username: user.username
                             });
+                            req.user = user;
                         } else {
                             const img = profile.picture.replace(
                                 '=s96-c',
@@ -231,6 +233,7 @@ exports.socialLoginUser = (req, res, next) => {
                                             authenticate.getToken(userToken),
                                         username: user.username
                                     });
+                                    req.user = user;
                                 })
                                 .catch((err) => {
                                     console.log(err);

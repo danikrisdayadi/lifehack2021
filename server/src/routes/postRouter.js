@@ -1,4 +1,5 @@
 const express = require('express');
+const authenticate = require('../utils/config/passport');
 
 const postRouter = express.Router();
 postRouter.use(express.json());
@@ -9,30 +10,30 @@ const replyController = require('../controllers/replyContoller');
 
 postRouter
     .route('/')
-    .get(postController.getAllPosts)
-    .post(postController.postPost);
+    .get(authenticate.verifyUser, postController.getAllPosts)
+    .post(authenticate.verifyUser, postController.postPost);
 
 postRouter
     .route('/:postId')
-    .get(postController.getPost)
-    .delete(postController.deletePost);
+    .get(authenticate.verifyUser, postController.getPost)
+    .delete(authenticate.verifyUser, postController.deletePost);
 
 postRouter
     .route('/:postId/comments')
-    .get(commentController.getPostComments)
-    .post(commentController.postComment);
+    .get(authenticate.verifyUser, commentController.getPostComments)
+    .post(authenticate.verifyUser, commentController.postComment);
 
 postRouter
     .route('/:postId/comments/:commentId')
-    .delete(commentController.deleteComment);
+    .delete(authenticate.verifyUser, commentController.deleteComment);
 
 postRouter
     .route('/:postId/comments/:commentId/replies')
-    .get(replyController.getCommentReplies)
-    .post(replyController.postReply);
+    .get(authenticate.verifyUser, replyController.getCommentReplies)
+    .post(authenticate.verifyUser, replyController.postReply);
 
 postRouter
     .route('/:postId/comments/:commentId/replies/:replyId')
-    .delete(replyController.deleteReply);
+    .delete(authenticate.verifyUser, replyController.deleteReply);
 
 module.exports = postRouter;

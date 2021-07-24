@@ -1,4 +1,5 @@
 const express = require('express');
+const authenticate = require('../utils/config/passport');
 
 const classroomRouter = express.Router();
 classroomRouter.use(express.json());
@@ -9,8 +10,8 @@ classroomRouter.route('/').post(classroomController.postClass);
 
 classroomRouter
     .route('/:classId')
-    .get(classroomController.getClass)
-    .put(classroomController.updateClass)
-    .delete(classroomController.deleteClass);
+    .get(authenticate.verifyUser, classroomController.getClass)
+    .put(authenticate.verifyUser, classroomController.updateClass)
+    .delete(authenticate.verifyUser, classroomController.deleteClass);
 
 module.exports = classroomRouter;
