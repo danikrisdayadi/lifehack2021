@@ -16,21 +16,16 @@ const McqQuestion = ({...props}) => {
     let question = props.question
     const CHOICES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'];
     let idx = -1;
-    let answer=""
     
     function onClickChoice(choice) {
         //to temporarily store the option chosen
         console.log("ANSWER");
         console.log(choice.target.value)
-        //set the temporary answer to be the chosen one
-        answer = choice.target.value
+        let newAnswers = props.answers
+        console.log(newAnswers)
+        newAnswers[question.id] = choice.target.value
+        props.setAnswers(newAnswers)
     }
-    //store the answer to backend and go to next question
-    function onClickNextQuestion(choice) {
-        //set path to next question
-        console.log("NEXT")
-    }
-
     return (
         <div className="container">
             <div className="row">
