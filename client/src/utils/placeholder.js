@@ -19,3 +19,11 @@ export const UserPlaceholder = {
     admin: false,
     _id: ''
 };
+
+export const AvatarPlaceholder = {
+    name: '',
+    picture: { location: '', key: '' },
+    price: 0,
+    unlocked: false,
+    _id: ''
+};
