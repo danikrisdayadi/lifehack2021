@@ -30,9 +30,9 @@ const birdAvatar = {
     unlocked: true,
     _id: ''
 };
-const birdAvatar2 = {
-    name: 'bird2',
-    picture: { location: 'bird.png', key: '' },
+const catAvatar = {
+    name: 'cat',
+    picture: { location: 'cat.png', key: '' },
     price: 150,
     unlocked: false,
     _id: ''
@@ -45,7 +45,7 @@ const ratAvatar = {
     _id: ''
 };
 
-const availableAvatars = [dogAvatar, birdAvatar, birdAvatar2, ratAvatar];
+const availableAvatars = [dogAvatar, birdAvatar, catAvatar, ratAvatar];
 
 const ProfilePage = ({ ...props }) => {
     const { queryId } = useParams();
