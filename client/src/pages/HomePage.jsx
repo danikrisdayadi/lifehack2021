@@ -27,7 +27,7 @@ const HomePage = ({ ...props }) => {
         return (
             <Col>
                 <Card
-                    id ="class-card"
+                    id="class-card"
                     style={{
                         backgroundColor: `${homeGradient[Math.floor(idx % 6)]}`,
                         textAlign: 'left',
@@ -35,7 +35,7 @@ const HomePage = ({ ...props }) => {
                     }}
                     key={c.teacher}
                     text="white"
-                    onClick={() => onClickCard(c.subject.toLowerCase())}
+                    onClick={() => onClickCard(c.id)}
                 >
                     <Card.Body>
                         <h3>{c.subject}</h3>
