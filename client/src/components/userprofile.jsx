@@ -78,7 +78,7 @@ const UserProfile = () => {
         <Card >
             <Card.Body>
               <Row className="align-items-center">
-                  <Col lg="auto" classname="justify-content-center">
+                  <Col lg="auto" className="justify-content-center">
                       <Row>
                         <Image src={`${process.env.PUBLIC_URL}/avatars/dog.png`} />
                       </Row>
