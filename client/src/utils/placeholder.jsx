@@ -15,7 +15,6 @@ export const UserPlaceholder = {
     ownedAvatars: [],
     avatar: '',
     items: [],
-    confirmationCode: '',
     loginType: '',
     admin: false,
     _id: ''

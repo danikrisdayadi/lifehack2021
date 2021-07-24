@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import isEmpty from 'is-empty';
 import { withRouter, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Container, Row, Col, Button } from 'react-bootstrap';
@@ -26,10 +25,10 @@ const ProfilePage = ({ ...props }) => {
             props.history.push(`/profile/${props.auth.user.username}`);
         }
 
-        axios.get(`/api/users/profiles/${queryId}`).then(({ data }) => {
-            setProfile(data);
-        });
-    }, [profile]);
+        setProfile(props.userProfile.userProfile);
+    }, [props.userProfile]);
+
+    console.log(profile);
 
     const avatars = profile
         ? profile.ownedAvatars.map((avatar) => {
@@ -56,7 +55,7 @@ const ProfilePage = ({ ...props }) => {
     return (
         <Style>
             <Container>
-                <h1>{profile.firstName}</h1>
+                <h1>{profile ? profile.firstName : null}</h1>
                 <br></br>
                 <h3>Profile Summary</h3>
                 <UserProfile />
@@ -75,6 +74,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-    logoutUser,
-    setProfile: setUserProfile
+    logoutUser
 })(withRouter(ProfilePage));
