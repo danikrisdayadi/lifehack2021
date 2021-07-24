@@ -21,22 +21,15 @@ const ProfilePage = ({ ...props }) => {
     const [profile, setProfile] = useState(UserPlaceholder);
 
     useEffect(() => {
-        console.log(queryId);
         console.log('inside', profile);
         if (!queryId) {
-            console.log('called');
             props.history.push(`/profile/${props.auth.user.username}`);
         }
 
-        if (isEmpty(profile)) {
-            console.log('called');
-            axios.get(`/api/users/profiles/${queryId}`).then(({ data }) => {
-                setProfile(data);
-            });
-        }
+        axios.get(`/api/users/profiles/${queryId}`).then(({ data }) => {
+            setProfile(data);
+        });
     }, [profile]);
-
-    // console.log(profile);
 
     const avatars = profile
         ? profile.ownedAvatars.map((avatar) => {
