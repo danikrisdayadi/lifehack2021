@@ -11,8 +11,13 @@ const TextQuestion = ({...props}) => {
     //         answer: "Yes",
     //         option: null
     //     }
-    // );
+    // );=
     let question = props.question 
+    function addAnswer(newAnswer) {
+        let newAnswers = props.answers
+        newAnswers[question.id] = newAnswer
+        props.setAnswers(newAnswers)
+    }
     return (
         <div className="container">
             <div className="row">
@@ -23,7 +28,8 @@ const TextQuestion = ({...props}) => {
                     <div>
                         <InputGroup>
                         <InputGroup.Text>Type your answer here</InputGroup.Text>
-                        <FormControl as="textarea" aria-label="With textarea" />
+                        <FormControl as="textarea" aria-label="With textarea" 
+                         onChange={e => addAnswer(e.target.value)} />
                     </InputGroup>
                     </div>
                     <br></br>

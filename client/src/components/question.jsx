@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import TextQuestion from './textQuestion';
 import McqQuestion from './mcqQuestion';
 
-const Question = () => {
+const Question = ({...props}) => {
     const [questionList, setQuestion] = useState([
         {
             content: "Are we gonna survive?",
@@ -45,18 +45,32 @@ const Question = () => {
         }
     ]
     );
+    const [answers,setAnswers] = useState({});
     let idx = 0;
+    function submitAnswer() {
+        let right = 0
+        for (const [key, value] of Object.entries(answers)) {
+            questionList.map((question)=>{
+                if(question.id.toString() == key.toString() && question.answer.toLowerCase() === value.toLowerCase()) {
+                    console.log(question.id)
+                    console.log(question.answer)
+                    right += 1
+                }
+            }) }
+            alert(`You get ${right}/${questionList.length}!!! `)
+    }
     return (
-        <div className="container">
+        <div className="container mb-4">
             {
             questionList.map((question) => {
                 idx+=1;
                 return (
-                    (question.options == null) ? <div><h4 style={{textAlign:"left",marginLeft:"2%"}}>Question {idx}/{questionList.length}</h4><TextQuestion question={question}/></div> 
-                    : <div><h4 style={{textAlign:"left", marginLeft:"2%"}}>Question {idx}/{questionList.length}</h4><McqQuestion question={question}/></div>
+                    (question.options == null) ? <div><h4 style={{textAlign:"left",marginLeft:"2%"}}>Question {idx}/{questionList.length}</h4><TextQuestion question={question} key={question.id}  setAnswers={setAnswers}  answers={answers}/></div> 
+                    : <div><h4 style={{textAlign:"left", marginLeft:"2%"}}>Question {idx}/{questionList.length}</h4><McqQuestion question={question} setAnswers={setAnswers} key={question.id} answers={answers}/></div>
                 );
             })
             }
+            <Button onClick={() =>submitAnswer() }>Submit</Button>
         </div>
     );
 }
