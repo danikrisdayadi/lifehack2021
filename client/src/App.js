@@ -19,6 +19,7 @@ import Question from './components/question';
 import ShopPage from './pages/ShopPage';
 import ForumPage from './pages/ForumPage';
 import ProfilePage from './pages/ProfilePage';
+import AssignmentResult from './components/assignmentResult';
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -73,6 +74,16 @@ const App = () => (
                         exact
                         render={(props) => (
                             <AssignmentCover
+                                key={props.match.params.queryId}
+                                history={props.history}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/result/:queryId"
+                        exact
+                        render={(props) => (
+                            <AssignmentResult
                                 key={props.match.params.queryId}
                                 history={props.history}
                             />

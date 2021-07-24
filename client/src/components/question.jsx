@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import TextQuestion from './textQuestion';
 import McqQuestion from './mcqQuestion';
 
-const Question = () => {
+const Question = ({...props}) => {
     const [questionList, setQuestion] = useState([
         {
             content: "Are we gonna survive?",
@@ -48,7 +48,16 @@ const Question = () => {
     const [answers,setAnswers] = useState({});
     let idx = 0;
     function submitAnswer() {
-        
+        let right = 0
+        for (const [key, value] of Object.entries(answers)) {
+            questionList.map((question)=>{
+                if(question.id.toString() == key.toString() && question.answer.toLowerCase() === value.toLowerCase()) {
+                    console.log(question.id)
+                    console.log(question.answer)
+                    right += 1
+                }
+            }) }
+            alert(`You get ${right}/${questionList.length}!!! `)
     }
     return (
         <div className="container mb-4">
