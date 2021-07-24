@@ -15,7 +15,7 @@ const NavigationBar = ({...props}) => {
     let loginButton;
     if (!props.auth.isAuthenticated) {
         loginButton = (
-            <Nav.Link>
+            <Nav.Link as={Link} to="/">
                 Login
             </Nav.Link>
         );
