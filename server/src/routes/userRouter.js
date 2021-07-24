@@ -29,6 +29,13 @@ userRouter
     .get(cors.cors, userController.getUser);
 
 userRouter
+    .route('/profiles/:username/characters')
+    .options(cors.corsWithOptions, (req, res) => {
+        res.sendStatus(204);
+    })
+    .put(cors.cors, userController.putCharacter);
+
+userRouter
     .route('/profiles/:username/assignments/:assignmentId')
     .options(cors.corsWithOptions, (req, res) => {
         res.sendStatus(204);
