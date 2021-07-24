@@ -1,12 +1,13 @@
 const express = require('express');
-
+const mongoose = require('mongoose');
 const Classroom = require('../models/classroom');
+const User = require('../models/user');
 
 const classroomController = {
     getClass(req, res, next) {
         Classroom.findById(req.params.classId)
             .then((c) => {
-                if (classController != null) {
+                if (classroomController != null) {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
                     res.json(c);
@@ -22,6 +23,7 @@ const classroomController = {
     },
 
     postClass(req, res) {
+        console.log('sefe');
         if (!req.body.subject) {
             return res.status(400).send({
                 message: 'Subject cannot be empty'
@@ -33,18 +35,16 @@ const classroomController = {
                 message: 'You are not authorized to create a class!'
             });
         }
-
         const c = new Classroom(req.body);
-
         c.save()
             .then((data) => {
-                const toUpdate = c.students.push(teacher);
-
-                Users.updateMany(
+                const toUpdate = [...c.students];
+                toUpdate.push(c.teacher);
+                User.updateMany(
                     { _id: { $in: toUpdate } },
                     {
                         $addToSet: {
-                            classrooms: Types.ObjectId(req.params.classId)
+                            classrooms: c._id
                         }
                     }
                 )
@@ -88,10 +88,12 @@ const classroomController = {
                     });
                 }
                 if (c.teacher.id.equals(req.user._id)) {
+                    console.log('aerwe213r');
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
                     res.json(c);
                 } else {
+                    console.log('aerwerq');
                     return res.status(400).send({
                         message: 'You are not authorized to update this class!'
                     });

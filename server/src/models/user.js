@@ -67,10 +67,6 @@ const userSchema = new Schema(
         characters: [characterSchema],
         avatar: characterSchema,
         items: [itemSchema],
-        confirmationCode: {
-            type: String,
-            unique: true
-        },
         loginType: {
             type: String,
             enum: ['local', 'google', 'linkedin'],
