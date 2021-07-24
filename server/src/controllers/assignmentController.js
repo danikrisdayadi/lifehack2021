@@ -2,6 +2,7 @@ const express = require('express');
 
 const Assignment = require('../models/assignment');
 const Classroom = require('../models/classroom');
+const User = require('../models/user');
 
 const assignmentController = {
     getAllAssignments(req, res) {
@@ -35,26 +36,28 @@ const assignmentController = {
     },
 
     postAssignment(req, res) {
-        // if (req.user.userType != 'Teacher') {
-        //     return res.status(400).send({
-        //         message: 'You are not authorized to post an assignment!'
-        //     });
-        // }
+        if (req.user.userType != 'Teacher') {
+            return res.status(400).send({
+                message: 'You are not authorized to post an assignment!'
+            });
+        }
 
         Classroom.findById(req.body.classroom)
             .then((classroom) => {
-                // if (!classroom) {
-                res.statusCode = 404;
-                res.send(`Classroom of id : ${req.body.classroom} not found!`);
-                return;
-                // } else if (!classroom.teacher.id.equals(req.user._id)) {
-                //     res.statusCode = 403;
-                //     res.send(`You are not authorized to post an assignment!`);
-                //     return;
-                // }
+                if (!classroom) {
+                    res.statusCode = 404;
+                    res.send(
+                        `Classroom of id : ${req.body.classroom} not found!`
+                    );
+                    return;
+                } else if (!classroom.teacher.equals(req.user._id)) {
+                    res.statusCode = 403;
+                    res.send(`You are not authorized to post an assignment!`);
+                    return;
+                }
+                console.log('here');
             })
             .then(() => {
-                console.log('asdasd');
                 const assignment = new Assignment(req.body);
                 console.log(assignment);
                 assignment
@@ -64,8 +67,31 @@ const assignmentController = {
                             $addToSet: { assignments: assignment._id }
                         })
                             .then((c) => {
-                                res.statusCode = 200;
-                                res.send(data);
+                                User.updateMany(
+                                    {
+                                        _id: {
+                                            $in: c.students
+                                        }
+                                    },
+                                    {
+                                        $addToSet: {
+                                            assignments: {
+                                                assignmentId: assignment._id
+                                            }
+                                        }
+                                    }
+                                )
+                                    .then(() => {
+                                        res.statusCode = 200;
+                                        res.send(data);
+                                    })
+                                    .catch((err) => {
+                                        res.status(500).send({
+                                            message:
+                                                err.message ||
+                                                'Some error occurred while creating the Assignment.'
+                                        });
+                                    });
                             })
                             .catch((err) => {
                                 res.status(500).send({
@@ -82,9 +108,11 @@ const assignmentController = {
                                 err.message ||
                                 'Some error occurred while creating the Assignment.'
                         });
+                        return;
                     });
             })
             .catch((err) => {
+                console.log(err);
                 res.status(500).send({
                     message:
                         err.message ||
@@ -105,10 +133,10 @@ const assignmentController = {
                 if (!classroom) {
                     res.statusCode = 404;
                     res.send(
-                        `Organisation of id : ${req.body.organisation} not found!`
+                        `Assignment of id : ${req.body.assignment} not found!`
                     );
                     return;
-                } else if (!c.teacher.id.equals(req.user._id)) {
+                } else if (!classroom.teacher.equals(req.user._id)) {
                     res.statusCode = 403;
                     res.send(`You are not authorized to post an assignment!`);
                     return;
@@ -149,6 +177,7 @@ const assignmentController = {
                     });
             })
             .catch((err) => {
+                console.log(err);
                 if (err.kind === 'ObjectId') {
                     return res.status(404).send({
                         message: 'Please enter the appropriate Object id'
@@ -174,10 +203,10 @@ const assignmentController = {
                 if (!classroom) {
                     res.statusCode = 404;
                     res.send(
-                        `Organisation of id : ${req.body.organisation} not found!`
+                        `Classroom of id : ${req.body.classroom} not found!`
                     );
                     return;
-                } else if (!c.teacher.id.equals(req.user._id)) {
+                } else if (!classroom.teacher.equals(req.user._id)) {
                     res.statusCode = 403;
                     res.send(`You are not authorized to post an assignment!`);
                     return;
@@ -197,18 +226,47 @@ const assignmentController = {
                         Classroom.findByIdAndUpdate(req.body.classroom, {
                             $pullAll: { assignments: [assignment._id] }
                         }).then((resp) => {
-                            Assignment.findByIdAndRemove(
-                                req.params.assignmentId
+                            User.updateMany(
+                                { _id: { $in: resp.students } },
+                                {
+                                    $pull: {
+                                        assignments: {
+                                            assignmentId: assignment._id
+                                        }
+                                    }
+                                }
                             )
                                 .then(() => {
-                                    res.statusCode = 200;
-                                    res.setHeader(
-                                        'Content-Type',
-                                        'application/json'
-                                    );
-                                    res.json(
-                                        'Assignment deleted successfully!'
-                                    );
+                                    Assignment.findByIdAndRemove(
+                                        req.params.assignmentId
+                                    )
+                                        .then(() => {
+                                            res.statusCode = 200;
+                                            res.setHeader(
+                                                'Content-Type',
+                                                'application/json'
+                                            );
+                                            res.json(
+                                                'Assignment deleted successfully!'
+                                            );
+                                        })
+                                        .catch((err) => {
+                                            if (
+                                                err.kind === 'ObjectId' ||
+                                                err.name === 'NotFound'
+                                            ) {
+                                                return res.status(404).send({
+                                                    message:
+                                                        'Assignment not found with id ' +
+                                                        req.params.assignmentId
+                                                });
+                                            }
+                                            return res.status(500).send({
+                                                message:
+                                                    'Could not delete assignment with id ' +
+                                                    req.params.assignmentId
+                                            });
+                                        });
                                 })
                                 .catch((err) => {
                                     if (
@@ -248,6 +306,7 @@ const assignmentController = {
                     });
             })
             .catch((err) => {
+                console.log(err);
                 if (err.kind === 'ObjectId' || err.name === 'NotFound') {
                     return res.status(404).send({
                         message:
