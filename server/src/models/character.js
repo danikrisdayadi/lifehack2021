@@ -14,10 +14,6 @@ const characterSchema = new Schema(
         price: {
             type: Number,
             required: true
-        },
-        unlocked: {
-            type: Boolean,
-            default: false
         }
     },
     {
