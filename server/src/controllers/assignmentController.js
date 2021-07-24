@@ -35,34 +35,33 @@ const assignmentController = {
     },
 
     postAssignment(req, res) {
-        if (req.user.userType != 'Teacher') {
-            return res.status(400).send({
-                message: 'You are not authorized to post an assignment!'
-            });
-        }
+        // if (req.user.userType != 'Teacher') {
+        //     return res.status(400).send({
+        //         message: 'You are not authorized to post an assignment!'
+        //     });
+        // }
 
         Classroom.findById(req.body.classroom)
             .then((classroom) => {
-                if (!classroom) {
-                    res.statusCode = 404;
-                    res.send(
-                        `Organisation of id : ${req.body.organisation} not found!`
-                    );
-                    return;
-                } else if (!c.teacher.id.equals(req.user._id)) {
-                    res.statusCode = 403;
-                    res.send(`You are not authorized to post an assignment!`);
-                    return;
-                }
+                // if (!classroom) {
+                res.statusCode = 404;
+                res.send(`Classroom of id : ${req.body.classroom} not found!`);
+                return;
+                // } else if (!classroom.teacher.id.equals(req.user._id)) {
+                //     res.statusCode = 403;
+                //     res.send(`You are not authorized to post an assignment!`);
+                //     return;
+                // }
             })
             .then(() => {
+                console.log('asdasd');
                 const assignment = new Assignment(req.body);
-
+                console.log(assignment);
                 assignment
                     .save()
                     .then((data) => {
                         Classroom.findByIdAndUpdate(req.body.classroom, {
-                            $addToSet: { opportunities: opportunity._id }
+                            $addToSet: { assignments: assignment._id }
                         })
                             .then((c) => {
                                 Users.updateMany(
@@ -100,6 +99,7 @@ const assignmentController = {
                             });
                     })
                     .catch((err) => {
+                        console.log(err);
                         res.status(500).send({
                             message:
                                 err.message ||
