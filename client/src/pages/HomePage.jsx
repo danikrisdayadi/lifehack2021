@@ -12,6 +12,7 @@ const HomePage = ({ ...props }) => {
 
     useEffect(() => {
         setProfile(profile);
+        console.log(profile);
     }, [props.userProfile]);
 
     function onClickCard(queryId) {
@@ -21,8 +22,37 @@ const HomePage = ({ ...props }) => {
         props.history.push('/profile');
     }
 
+    const [dummyClasses, setClasses] = useState([
+        {
+            teacher: 'Ms Winy',
+            student: [1, 2, 3],
+            subject: 'Physics',
+            assignment: [1, 2, 3, 4]
+        },
+        {
+            teacher: 'Ms Fris',
+            student: [1, 2, 3],
+            subject: 'Mathematics',
+            assignment: [1, 2, 3, 4]
+        },
+        {
+            teacher: 'Mr Dani',
+            student: [1, 2, 3, 4, 5, 6, 7, 8],
+            subject: 'Chemistry',
+            assignment: [1, 2, 3, 4]
+        },
+        {
+            teacher: 'Ms Melissa',
+            student: [1, 2, 3, 4, 5, 6, 7, 8],
+            subject: 'Economics',
+            assignment: [1, 2, 3, 4]
+        }
+    ]);
+
+    const allClasses = dummyClasses.concat(profile.classrooms);
+
     let idx = 0;
-    const classCard = profile.classrooms.map((c) => {
+    const classCard = allClasses.map((c) => {
         idx += 1;
         return (
             <Col>

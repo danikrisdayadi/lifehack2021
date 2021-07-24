@@ -1,3 +1,6 @@
+const DogProfile = `${process.env.PUBLIC_URL}/avatars/dog.png`;
+const BirdProfile = `${process.env.PUBLIC_URL}/avatars/bird.png`;
+
 export const UserPlaceholder = {
     firstName: '',
     lastName: '',
@@ -9,11 +12,26 @@ export const UserPlaceholder = {
     posts: [],
     classrooms: [],
     assignments: [],
-    coins: 0,
+    coins: 300,
     xp: 0,
     level: 0,
-    ownedAvatars: [],
-    avatar: '',
+    ownedAvatars: [
+        {
+            name: 'dog',
+            picture: DogProfile,
+            price: 50
+        },
+        {
+            name: 'bird',
+            picture: BirdProfile,
+            price: 70
+        }
+    ],
+    avatar: {
+        name: 'dog',
+        picture: DogProfile,
+        price: 50
+    },
     items: [],
     loginType: '',
     admin: false,

@@ -339,6 +339,27 @@ exports.putUser = (req, res, next) => {
         });
 };
 
+exports.putCharacter = (req, res, next) => {
+    if (req.body) {
+        Users.find({ username: req.params.username }).then((user) => {
+            console.log(req.user);
+            if (user.coins < req.body.price) {
+                let err = new Error(
+                    'You do not have sufficient coins to purchase this character!'
+                );
+                res.statusCode = 404;
+                return next(err);
+            } else {
+                user.ownedAvatars.push(req.body);
+                user.coins -= req.body.price;
+                user.save().then(() => {
+                    res.json(user.ownedAvatars);
+                });
+            }
+        });
+    }
+};
+
 exports.getAssignments = (req, res, next) => {
     Users.findOne({
         username: req.params.username
