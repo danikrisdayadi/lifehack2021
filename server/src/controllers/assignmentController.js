@@ -128,7 +128,7 @@ const assignmentController = {
                 if (!classroom) {
                     res.statusCode = 404;
                     res.send(
-                        `Organisation of id : ${req.body.organisation} not found!`
+                        `Assignment of id : ${req.body.assignment} not found!`
                     );
                     return;
                 } else if (!c.teacher.id.equals(req.user._id)) {
@@ -197,10 +197,10 @@ const assignmentController = {
                 if (!classroom) {
                     res.statusCode = 404;
                     res.send(
-                        `Organisation of id : ${req.body.organisation} not found!`
+                        `Classroom of id : ${req.body.classroom} not found!`
                     );
                     return;
-                } else if (!c.teacher.id.equals(req.user._id)) {
+                } else if (!classroom.teacher.id.equals(req.user._id)) {
                     res.statusCode = 403;
                     res.send(`You are not authorized to post an assignment!`);
                     return;

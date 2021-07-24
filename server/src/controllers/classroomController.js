@@ -1,7 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const Types = mongoose.Types;
 const Classroom = require('../models/classroom');
 const User = require('../models/user');
+const Assignment = require('../models/assignment');
+const isEmpty = require('is-empty');
 
 const classroomController = {
     getClass(req, res, next) {
@@ -88,17 +91,21 @@ const classroomController = {
                         message: 'Class not found with id ' + req.params.classId
                     });
                 }
-                if (c.teacher.id.equals(req.user._id)) {
+
+                if (c.teacher.equals(req.user._id)) {
                     if (!isEmpty(req.body.students)) {
+                        console.log(c.assignments);
                         const assignmentStatus = c.assignments.map((assign) => {
                             return { assignmentId: assign._id };
                         });
-
-                        Users.updateMany(
+                        console.log(assignmentStatus);
+                        User.updateMany(
                             { _id: { $in: req.body.students } },
                             {
                                 $addToSet: {
-                                    classes: Types.ObjectId(req.params.classId),
+                                    classrooms: Types.ObjectId(
+                                        req.params.classId
+                                    ),
                                     assignments: assignmentStatus
                                 }
                             }
@@ -110,6 +117,7 @@ const classroomController = {
                                     'application/json'
                                 );
                                 res.json(c);
+                                return;
                             })
                             .catch((err) => {
                                 if (err.kind === 'ObjectId') {
@@ -118,21 +126,26 @@ const classroomController = {
                                             'Please enter the appropriate Object id'
                                     });
                                 }
+
                                 return res.status(500).send({
                                     message:
                                         'Error updating class with id ' +
                                         req.params.classId
                                 });
                             });
+                    } else {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json(c);
                     }
                 } else {
-                    console.log('aerwerq');
                     return res.status(400).send({
                         message: 'You are not authorized to update this class!'
                     });
                 }
             })
             .catch((err) => {
+                console.log(err);
                 if (err.kind === 'ObjectId') {
                     return res.status(404).send({
                         message: 'Please enter the appropriate Object id'
@@ -159,24 +172,25 @@ const classroomController = {
                         message: 'Class not found with id ' + req.params.classId
                     });
                 }
-                if (c.teacher.id.equals(req.user._id)) {
-                    const toDel = c.students.push(req.user._id);
+                if (c.teacher.equals(req.user._id)) {
+                    const toDel = [...c.students];
+                    toDel.push(req.user._id);
                     const assignmentIds = c.assignments.map(
                         (assignment) => assignment._id
                     );
 
-                    Users.updateMany(
+                    User.updateMany(
                         { _id: { $in: toDel } },
                         {
-                            $pullAll: {
+                            $pull: {
                                 classrooms: req.params.classId,
-                                assignments: { assignmentId: c.assignments }
+                                assignments: { assignmentId: assignmentIds }
                             }
                         }
                     )
                         .then(() => {
-                            Assignments.deleteMany({
-                                _id: { $in: c.assignments }
+                            Assignment.deleteMany({
+                                _id: { $in: assignmentIds }
                             })
                                 .then(() => {
                                     Classroom.findByIdAndRemove(
@@ -202,6 +216,7 @@ const classroomController = {
                 }
             })
             .catch((err) => {
+                console.log(err);
                 if (err.kind === 'ObjectId' || err.name === 'NotFound') {
                     return res.status(404).send({
                         message: 'Class not found with id ' + req.params.classId

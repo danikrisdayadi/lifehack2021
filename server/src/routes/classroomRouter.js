@@ -6,7 +6,9 @@ classroomRouter.use(express.json());
 
 const classroomController = require('../controllers/classroomController');
 
-classroomRouter.route('/').post(classroomController.postClass);
+classroomRouter
+    .route('/')
+    .post(authenticate.verifyUser, classroomController.postClass);
 
 classroomRouter
     .route('/:classId')
