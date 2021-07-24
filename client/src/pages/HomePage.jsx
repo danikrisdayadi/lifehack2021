@@ -17,6 +17,9 @@ const HomePage = ({ ...props }) => {
     function onClickCard(queryId) {
         props.history.push('/class/' + queryId);
     }
+    function viewProfile() {
+        props.history.push('/profile');
+    }
 
     let idx = 0;
     const classCard = profile.classrooms.map((c) => {
@@ -24,6 +27,7 @@ const HomePage = ({ ...props }) => {
         return (
             <Col>
                 <Card
+                    id ="class-card"
                     style={{
                         backgroundColor: `${homeGradient[Math.floor(idx % 6)]}`,
                         textAlign: 'left',

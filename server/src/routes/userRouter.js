@@ -33,7 +33,7 @@ userRouter
     .options(cors.corsWithOptions, (req, res) => {
         res.sendStatus(204);
     })
-    .put(cors.cors, userController.getUser);
+    .put(cors.cors, userController.getAssignments);
 
 userRouter
     .route('/register')

@@ -31,13 +31,12 @@ const Assignments = ({...props}) => {
     ]);
     function onClickAssignment(assignment) {
         console.log(assignment)
-        props.history.push("/assignment/1")
-        console.log(props.history)
+        props.history.push("/assignment/" + {assignment})
         //TODO pushing based on ID to go to each assignment
     }
     const AssignmentList = assignmentlist.map((assignment) => {
         return (
-            <Card key={assignment.id} onClick={(assignment) => onClickAssignment(assignment)}>
+            <Card id="assignment-list" key={assignment.id} onClick={(assignment) => onClickAssignment(assignment)}>
                 <Card.Body>
                     <Row className="align-items-center">
                     <Card.Title className="ml-3">{assignment.title}</Card.Title>
