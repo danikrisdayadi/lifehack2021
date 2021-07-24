@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { Container, Row, Col, Image, Button } from "react-bootstrap";
 import Coin from '../assets/coin.svg'
@@ -9,42 +9,45 @@ const Style = styled.div`
     text-align: left;
 
 `
+const dogAvatar = {
+    name: 'dog',
+    picture: { location: 'dog.png', key: '' },
+    price: 100,
+    unlocked: true,
+    _id: ''
+}
+const birdAvatar = {
+    name: 'bird',
+    picture: { location: 'bird.png', key: '' },
+    price: 150,
+    unlocked: true,
+    _id: ''
+}
+const birdAvatar2 = {
+    name: 'bird2',
+    picture: { location: 'bird.png', key: '' },
+    price: 150,
+    unlocked: false,
+    _id: ''
+}
+const ratAvatar = {
+    name: 'rat',
+    picture: { location: 'rat.png', key: '' },
+    price: 250,
+    unlocked: false,
+    _id: ''
+}
+const availableAvatars = [dogAvatar, birdAvatar, birdAvatar2, ratAvatar];
+
 const ProfilePage = () => {
     const [selectedAvatar, setselectedAvatar] = useState(AvatarPlaceholder);
-    const selectAvatar = (selectedName) => {
-        const newAvatar = {
-            name: selectedName,
-            picture: {location: '', key: ''},
-            price: 0,
-            unlocked: false,
-            _id: ''
-        }
-        console.log("Selectavatar")
+    const selectAvatar = (avatar) => {
+        setselectedAvatar(avatar);
     }
-
-    const dogAvatar = {
-        name: 'dog',
-        picture: { location: 'dog.png', key: '' },
-        price: 100,
-        unlocked: true,
-        _id: ''
+    const purchaseAvatar = (avatar) => {
+        console.log("I want to purchase this avatar", avatar)
     }
-    const birdAvatar = {
-        name: 'bird',
-        picture: { location: 'bird.png', key: '' },
-        price: 150,
-        unlocked: false,
-        _id: ''
-    }
-    const ratAvatar = {
-        name: 'rat',
-        picture: { location: 'rat.png', key: '' },
-        price: 250,
-        unlocked: false,
-        _id: ''
-    }
-    const availableAvatars = [dogAvatar, birdAvatar, ratAvatar];
-    const avatars = availableAvatars.map((avatar) => {
+    const avatarList = availableAvatars.map((avatar) => {
         return (
             <Col >
                 <Row className="justify-content-center" style={{height: 100}}>
@@ -52,13 +55,14 @@ const ProfilePage = () => {
                 </Row>
                 <Row className="justify-content-center">
                     {avatar.unlocked ? 
-                        <Button style={{marginTop: 20}} onClick={selectAvatar(avatar)}>Select</Button> : 
-                        <Button style={{marginTop: 20}} onClick={selectAvatar(avatar)} variant="success">{avatar.price} <Image src={Coin} width="20px" style={{marginLeft: 5}}/></Button>}
-                    
+                        <Button style={{marginTop: 20}} onClick={() => selectAvatar(avatar)} variant={selectedAvatar.name === avatar.name ? "primary" : "dark"}>{selectedAvatar.name === avatar.name ? "Selected" : "Select"}</Button> :
+                        <Button style={{marginTop: 20}} onClick={() => purchaseAvatar(avatar)} variant="success">{avatar.price} <Image src={Coin} width="20px" style={{marginLeft: 5}}/></Button>
+                    }
                 </Row>
             </Col>
         )
-    })
+    });
+
     return (
         <Style>
             <Container>
@@ -70,7 +74,7 @@ const ProfilePage = () => {
                 <br />
                 <h3>Owned Avatars</h3>
                 <Row lg={6}>
-                    {avatars}
+                    {avatarList}
                 </Row>
             </Container>
         </Style>
