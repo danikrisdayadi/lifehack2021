@@ -2,15 +2,22 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '../redux/actions/AuthActions';
-import { Navbar, Nav, Container, NavDropdown, Button, Image } from 'react-bootstrap';
+import {
+    Navbar,
+    Nav,
+    Container,
+    NavDropdown,
+    Button,
+    Image
+} from 'react-bootstrap';
 import Logo from '../assets/logo-white.svg';
 
-const NavigationBar = ({...props}) => {
-    console.log(props)
+const NavigationBar = ({ ...props }) => {
+    console.log(props);
     const logoutFunction = () => {
         props.logoutUser();
         props.history.push('/');
-    }
+    };
 
     let loginButton;
     if (!props.auth.isAuthenticated) {
@@ -20,11 +27,7 @@ const NavigationBar = ({...props}) => {
             </Nav.Link>
         );
     } else {
-        loginButton = (
-            <Nav.Link onClick={logoutFunction}>
-                Logout
-            </Nav.Link>
-        );
+        loginButton = <Nav.Link onClick={logoutFunction}>Logout</Nav.Link>;
     }
 
     return (
@@ -49,6 +52,9 @@ const NavigationBar = ({...props}) => {
                     <Nav.Link as={Link} to="/forum">
                         Forum
                     </Nav.Link>
+                    <Nav.Link as={Link} to="/shop">
+                        Shop
+                    </Nav.Link>
                     <Nav.Link as={Link} to="/profile">
                         My Profile
                     </Nav.Link>
@@ -57,7 +63,7 @@ const NavigationBar = ({...props}) => {
             </Container>
         </Navbar>
     );
-}
+};
 
 const mapStateToProps = (state) => ({
     auth: state.auth
@@ -65,4 +71,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, { logoutUser })(
     withRouter(NavigationBar)
-);;
+);
